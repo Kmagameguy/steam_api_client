@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+puts "== Running RuboCop =="
+system("bundle", "exec", "rubocop", *ARGV) || abort

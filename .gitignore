@@ -1,0 +1,11 @@
+*.gem
+.bundle
+.config
+Gemfile.lock
+test/reporters
+test/tmp
+tmp
+.env.*
+.DS_Store
+.irb_history
+
