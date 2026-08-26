@@ -9,5 +9,6 @@ module SteamApiClient
 
   module Resources
     autoload :IPlayerService, "steam_api_client/resources/i_player_service"
+    autoload :ISteamNews,     "steam_api_client/resources/i_steam_news"
   end
 end
