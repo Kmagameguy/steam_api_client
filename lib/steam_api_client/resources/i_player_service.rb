@@ -25,7 +25,7 @@ module SteamApiClient
         params = {
           include_appinfo: include_appinfo,
           include_played_free_games: include_played_free_games
-        }.reject { |_, v| !v }
+        }.select { |_, v| v }
 
         params[:steamid] = steam_id
 

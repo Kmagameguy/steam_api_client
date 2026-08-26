@@ -22,7 +22,7 @@ module SteamApiClient
         params = {
           count: count,
           maxlength: content_max_length
-        }.reject { |_, v| !v }
+        }.select { |_, v| v }
 
         params[:appid] = app_id
 
