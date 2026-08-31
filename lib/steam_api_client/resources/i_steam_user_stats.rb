@@ -32,7 +32,11 @@ module SteamApiClient
 
       def global_achievement_percentages_for_app
         response = connection.get(build_url(GET_GLOBAL_ACHIEVEMENT_PERCENTAGES_FOR_APP), { gameid: app_id })
-        process_response(response, key: :achievementpercentages)
+        processed_response = process_response(response, key: :achievementpercentages)&.dig("achievements")
+
+        processed_response.map do |item|
+          Models::GameAchievementPercentage.new(item)
+        end
       end
 
       def player_achievements_for_game

@@ -27,7 +27,9 @@ module SteamApiClient
         }.select { |_, v| v }
 
         response = connection.get(build_url(GET_NEWS_FOR_APP), params)
-        process_response(response)
+        processed_response = process_response(response)&.dig("newsitems") || []
+
+        processed_response.map { |item| Models::GameNews.new(item) }.sort_by { |item| item&.post_date }GET_NEWS_FOR_APP.reverse
       end
 
       private

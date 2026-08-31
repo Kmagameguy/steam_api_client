@@ -15,6 +15,14 @@ module SteamApiClient
         post_initialize_hook
       end
 
+      def news
+        @news ||= steam_news_service.news_for_app
+      end
+
+      def global_achievement_percentages
+        @global_achievement_percentages ||= steam_user_stats.global_achievement_percentages_for_app
+      end
+
       def attributes
         to_h
       end
@@ -31,6 +39,14 @@ module SteamApiClient
       protected
 
       def post_initialize_hook; end
+
+      def steam_news_service
+        @steam_news_service ||= Resources::ISteamNews.new(app_id: id)
+      end
+
+      def steam_user_stats
+        @steam_user_stats ||= Resources::ISteamUserStats.new(app_id: id)
+      end
     end
   end
 end
