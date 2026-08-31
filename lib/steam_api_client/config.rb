@@ -3,12 +3,16 @@
 module SteamApiClient
   class Config
     class Error < StandardError; end
+    DEFAULT_API_ROOT_URL = "https://api.steampowered.com"
 
-    attr_accessor :api_key, :api_key_domain
+    attr_accessor :api_key,
+                  :api_key_domain,
+                  :api_root_url
 
     def initialize
       @api_key = ENV.fetch("STEAM_API_KEY")
       @api_key_domain = ENV.fetch("STEAM_API_KEY_DOMAIN")
+      @api_root_url = ENV.fetch("STEAM_API_ROOT_URL", DEFAULT_API_ROOT_URL)
 
       raise Error, "Invalid API Key" if @api_key == "secret" || @api_key.strip.empty?
       raise Error, "Invalid API Key Domain" if @api_key == "your-domain.com" || @api_k

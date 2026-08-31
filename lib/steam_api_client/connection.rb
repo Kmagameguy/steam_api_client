@@ -3,7 +3,6 @@
 # TODO: Probably should make this a singleton...
 module SteamApiClient
   class Connection
-    STEAM_API_ROOT_URL = "https://api.steampowered.com"
 
     attr_reader :config
 
@@ -25,7 +24,7 @@ module SteamApiClient
     private
 
     def connection
-      @connection ||= Faraday.new(url: STEAM_API_ROOT_URL) do |faraday|
+      @connection ||= Faraday.new(url: config.api_root_url) do |faraday|
         faraday.headers["User-Agent"] = config.user_agent_string
         faraday.request  :json
         faraday.response :json
