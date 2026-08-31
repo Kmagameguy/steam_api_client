@@ -31,7 +31,7 @@ module SteamApiClient
       end
 
       def process_response(response)
-        return response.body.dig("apilist") if response.success?
+        return response.body&.dig("apilist") if response.success?
 
         raise Error, status: response.status, error_message: response.body
       end

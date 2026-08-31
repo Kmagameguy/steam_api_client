@@ -21,13 +21,11 @@ module SteamApiClient
     private
 
     def validate_config
-      if api_key == "secret" || api_key.to_s.strip.empty?
-        raise Error, "Invalid API Key, check ENV"
-      end
+      raise Error, "Invalid API Key, check ENV" if api_key == "secret" || api_key.to_s.strip.empty?
 
-      if api_key_domain == "your-domain.com" || api_key_domain.to_s.strip.empty?
-        raise Error, "Invalid API Domain, check ENV"
-      end
+      return unless api_key_domain == "your-domain.com" || api_key_domain.to_s.strip.empty?
+
+      raise Error, "Invalid API Domain, check ENV"
     end
   end
 end

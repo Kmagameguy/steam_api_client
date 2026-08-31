@@ -10,8 +10,53 @@ AllCops:
 Gemspec/RequireMFA:
   Enabled: false
 
+Layout/ExtraSpacing:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/SpaceAroundOperators:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Exclude:
+    # Excluding this for now while I build-up the gem. Might refactor this to be smaller eventually.
+    - lib/steam_api_client/steam_user.rb
+    - lib/steam_api_client/resources/i_steam_user.rb
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - lib/steam_api_client/models/user_owned_game.rb
+    - lib/steam_api_client/resources/i_store_service.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - lib/steam_api_client/models/user_owned_game.rb
+    - lib/steam_api_client/models/user_profile.rb
+    - lib/steam_api_client/resources/i_store_service.rb
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - lib/steam_api_client/resources/i_store_service.rb
+
+Naming/PredicateMethod:
+  Exclude:
+    # Excluding this one due to a false positive for the enable_cache! method
+    - lib/steam_api_client/steam_user.rb
+
 Style/Documentation:
   Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/FetchEnvVar:
+  Exclude:
+    - lib/steam_api_client/steam_user.rb
 
 Style/FrozenStringLiteralComment:
   Exclude:
@@ -19,6 +64,10 @@ Style/FrozenStringLiteralComment:
     - Gemfile
     - Rakefile
     - bin/*
+
+Style/RedundantSelf:
+  Exclude:
+    - lib/steam_api_client/steam_user.rb
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

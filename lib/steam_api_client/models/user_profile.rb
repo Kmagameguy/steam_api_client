@@ -66,17 +66,17 @@ module SteamApiClient
       end
 
       def profile_configured?
-        profile_configured > 0
+        profile_configured.positive?
       end
 
       def comments_allowed?
-        comments_allowed > 0
+        comments_allowed.positive?
       end
 
       private
 
       def metadata_flags(value)
-        PERSONA_STATE_FLAGS.select { |_name, bit| (value & bit) != 0 }.keys
+        PERSONA_STATE_FLAGS.reject { |_name, bit| value.anybits?(bit) }.keys
       end
 
       attr_reader :profile_configured, :comments_allowed

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SteamApiClient
   module Models
     module Concerns

@@ -37,12 +37,13 @@ module SteamApiClient
         params = {
           if_modified_since: if_modified_since,
           include_games:     include_games,
+          include_dlc:       include_dlc,
           include_software:  include_software,
           include_videos:    include_videos,
           include_hardware:  include_hardware,
           max_results:       max_results,
           last_appid:        app_id_offset
-        }.reject { |_, v| v.nil? }
+        }.compact
 
         response = connection.get(build_url(GET_APP_LIST), params)
         process_response(response)
@@ -53,7 +54,7 @@ module SteamApiClient
         processed_response = process_response(response)&.dig("appids") || []
 
         processed_response.map do |item|
-          Models::UserFollowedGame.new({ "steam_id" => steam_id, "appid" => item})
+          Models::UserFollowedGame.new({ "steam_id" => steam_id, "appid" => item })
         end
       end
 
@@ -73,7 +74,7 @@ module SteamApiClient
       end
 
       def process_response(response)
-        return response.body.dig("response") if response.success?
+        return response.body&.dig("response") if response.success?
 
         raise Error, status: response.status, error_message: response.body
       end

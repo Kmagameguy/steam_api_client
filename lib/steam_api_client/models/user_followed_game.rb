@@ -7,7 +7,7 @@ module SteamApiClient
 
       def initialize(raw_attributes = {})
         @steam_id = raw_attributes["steam_id"].to_i
-        @id   = raw_attributes["appid"].to_i
+        @id       = raw_attributes["appid"].to_i
       end
     end
   end

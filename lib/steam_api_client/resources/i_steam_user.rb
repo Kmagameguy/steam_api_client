@@ -32,12 +32,12 @@ module SteamApiClient
         profile: 1,
         group:   2,
         official_game_group: 3
-      }
+      }.freeze
 
       attr_accessor :steam_id
 
       def self.steam_id_for_vanity_url(vanity_url, url_type: :default, connection: ::SteamApiClient::Connection.new)
-        new(connection: connection).steam_id_for_vanity_url(vanity_url)
+        new(connection: connection).steam_id_for_vanity_url(vanity_url, url_type: url_type)
       end
 
       def self.vanity_url_types
@@ -67,11 +67,7 @@ module SteamApiClient
         steam_ids = ([steam_id] + Array(additional_steam_ids)).compact.uniq.sort
         raise TooManyIdsError if steam_ids.size > STEAM_ID_QUERY_LIMIT
 
-        params = {
-          steamids: steam_ids.join(",")
-        }
-
-        response = connection.get(build_url(GET_PLAYER_BANS), params)
+        response = connection.get(build_url(GET_PLAYER_BANS), { steamids: steam_ids.join(",") })
         processed_response = process_response(response, key: :players)
 
         processed_response.map do |item|
@@ -146,7 +142,7 @@ module SteamApiClient
       # TODO: Don't like having this directly in this class (or in the other similar classes)
       # See SteamUser for an example of why this is awkward. Maybe this should be its own class (?)
       def process_response(response, key:)
-        return response.body.dig(key.to_s) if response.success?
+        return response.body&.dig(key.to_s) if response.success?
 
         raise Error, status: response.status, error_message: response.body
       end

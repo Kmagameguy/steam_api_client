@@ -116,13 +116,7 @@ module SteamApiClient
     def achievements_for(app_id: nil, app_name: nil)
       raise ArgumentError, "Must provide an app_id or an app_name!" if app_id.nil? && app_name.nil?
 
-      game = if app_id
-               games.find { |game| game.id == app_id }
-             else
-               games.find { |game| game.name.strip.tr(" ", "").downcase == app_name.strip.tr(" ", "").downcase }
-             end
-
-      game&.achievements || []
+      find_game(app_id: app_id, app_name: app_name)&.achievements || []
     end
 
     # TODO: There's an edge case here, where if you've got achievements for a refunded
@@ -130,13 +124,7 @@ module SteamApiClient
     def stats_for(app_id: nil, app_name: nil)
       raise ArgumentError, "Must provide an app_id or an app_name!" if app_id.nil? && app_name.nil?
 
-      game = if app_id
-               games.find { |game| game.id == app_id }
-             else
-               games.find { |game| game.name.strip.tr(" ", "").downcase == app_name.strip.tr(" ", "").downcase }
-             end
-
-      game&.stats || []
+      find_game(app_id: app_id, app_name: app_name)&.stats || []
     end
 
     def bypass_cache?
@@ -156,6 +144,18 @@ module SteamApiClient
     private
 
     attr_accessor :bypass_cache
+
+    def find_game(app_id: nil, app_name: nil)
+      if app_id
+        games.find { |game| game.id == app_id }
+      else
+        games.find { |game| names_match?(game.name, app_name) }
+      end
+    end
+
+    def names_match?(str1, str2)
+      str1.strip.tr(" ", "").downcase == str2.strip.tr(" ", "").downcase
+    end
 
     def wishlist_service
       @wishlist_service ||= Resources::IWishlistService.new(steam_id: steam_id, connection: connection)

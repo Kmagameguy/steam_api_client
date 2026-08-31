@@ -16,16 +16,18 @@ module SteamApiClient
                   :offline_playtime
 
       def to_h
-        {}.merge(steam_id: steam_id).merge(super).merge({
-          playtime_last_two_weeks: playtime_last_two_weeks,
-          total_playtime: total_playtime,
-          windows_playtime: windows_playtime,
-          mac_playtime: mac_playtime,
-          linux_playtime: linux_playtime,
-          last_played_at: last_played_at,
-          offline_playtime: offline_playtime,
-          achievements: achievements
-        })
+        {}.merge(steam_id: steam_id).merge(super).merge(
+          {
+            playtime_last_two_weeks: playtime_last_two_weeks,
+            total_playtime: total_playtime,
+            windows_playtime: windows_playtime,
+            mac_playtime: mac_playtime,
+            linux_playtime: linux_playtime,
+            last_played_at: last_played_at,
+            offline_playtime: offline_playtime,
+            achievements: achievements
+          }
+        )
       end
 
       def achievements
