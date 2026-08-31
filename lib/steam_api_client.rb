@@ -7,6 +7,7 @@ module SteamApiClient
   autoload :Config,     "steam_api_client/config"
   autoload :Connection, "steam_api_client/connection"
   autoload :SteamUser,  "steam_api_client/steam_user"
+  autoload :VERSION,    "steam_api_client/version"
 
   module Models
     module Concerns
