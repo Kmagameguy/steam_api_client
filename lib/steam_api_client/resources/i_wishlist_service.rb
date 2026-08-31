@@ -16,7 +16,7 @@ module SteamApiClient
       attr_accessor :steam_id
 
       def initialize(steam_id:, connection: ::SteamApiClient::Connection.instance)
-        @steam_id = steam_id
+        @steam_id   = steam_id
         @connection = connection
 
         raise NoSteamIdError if @steam_id.nil?
