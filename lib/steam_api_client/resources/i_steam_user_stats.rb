@@ -3,8 +3,9 @@
 module SteamApiClient
   module Resources
     class ISteamUserStats
-      class NoSteamIdError < StandardError; end
-      class NoAppIdError   < StandardError; end
+      class Error < StandardError; end
+      class NoSteamIdError < Error; end
+      class NoAppIdError   < Error; end
 
       SERVICE_NAME = "ISteamUserStats"
       GET_GLOBAL_ACHIEVEMENT_PERCENTAGES_FOR_APP = "GetGlobalAchievementPercentagesForApp"
@@ -21,26 +22,39 @@ module SteamApiClient
 
       attr_accessor :steam_id, :app_id
 
-      def initialize(steam_id:, app_id:, connection: ::SteamApiClient::Connection.new)
-        @steam_id   = steam_id
+      def initialize(app_id:, steam_id: nil, connection: ::SteamApiClient::Connection.new)
         @app_id     = app_id
+        @steam_id   = steam_id
         @connection = connection
 
-        # TODO: Only check these in the relevant methods instead of on init
-        raise NoSteamIdError if @steam_id.nil?
         raise NoAppIdError if @app_id.nil?
       end
 
       def global_achievement_percentages_for_app
-        connection.get(build_url(GET_GLOBAL_ACHIEVEMENT_PERCENTAGES_FOR_APP), { gameid: app_id })
+        response = connection.get(build_url(GET_GLOBAL_ACHIEVEMENT_PERCENTAGES_FOR_APP), { gameid: app_id })
+        process_response(response, key: :achievementpercentages)
       end
 
-      def player_achievements
-        connection.get(build_url(GET_PLAYER_ACHIEVEMENTS), { steamid: steam_id, appid: app_id })
+      def player_achievements_for_game
+        raise NoSteamIdError if steam_id.nil?
+
+        response = connection.get(build_url(GET_PLAYER_ACHIEVEMENTS), { steamid: steam_id, appid: app_id })
+        processed_response = process_response(response, key: :playerstats)&.dig("achievements")
+
+        processed_response.map do |item|
+          Models::UserGameAchievement.new(item)
+        end
       end
 
       def player_stats_for_game
-        connection.get(build_url(GET_USER_STATS_FOR_GAME), { steamid: steam_id, appid: app_id })
+        raise NoSteamIdError if steam_id.nil?
+
+        response = connection.get(build_url(GET_USER_STATS_FOR_GAME), { steamid: steam_id, appid: app_id })
+        processed_response = process_response(response, key: :playerstats)&.dig("stats") || []
+
+        processed_response.keys.map do |key|
+          Models::UserGameStat.new(processed_response[key].merge("_key_name" => key))
+        end
       end
 
       private
@@ -49,6 +63,12 @@ module SteamApiClient
 
       def build_url(resource)
         "#{SERVICE_NAME}/#{resource}/#{API_VERSION_MAP[resource]}"
+      end
+
+      def process_response(response, key:)
+        return response.body.dig(key.to_s) if response.success?
+
+        raise Error, status: response.status, error_message: response.body
       end
     end
   end

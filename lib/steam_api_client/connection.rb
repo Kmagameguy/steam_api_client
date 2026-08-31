@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: Probably should make this a singleton...
 module SteamApiClient
   class Connection
     STEAM_API_ROOT_URL = "https://api.steampowered.com"

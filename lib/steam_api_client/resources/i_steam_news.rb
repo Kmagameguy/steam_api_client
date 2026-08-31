@@ -3,7 +3,8 @@
 module SteamApiClient
   module Resources
     class ISteamNews
-      class NoAppIdError < StandardError; end
+      class Error < StandardError; end
+      class NoAppIdError < Error; end
 
       SERVICE_NAME     = "ISteamNews"
       API_VERSION      = "v0002"
@@ -20,13 +21,13 @@ module SteamApiClient
 
       def news_for_app(count: nil, content_max_length: nil)
         params = {
+          appid: app_id,
           count: count,
           maxlength: content_max_length
         }.select { |_, v| v }
 
-        params[:appid] = app_id
-
-        connection.get(build_url(GET_NEWS_FOR_APP), params)
+        response = connection.get(build_url(GET_NEWS_FOR_APP), params)
+        process_response(response)
       end
 
       private
@@ -35,6 +36,12 @@ module SteamApiClient
 
       def build_url(resource)
         "#{SERVICE_NAME}/#{resource}/#{API_VERSION}/"
+      end
+
+      def process_response(response)
+        return response.body.dig("appnews") if response.success?
+
+        raise Error, status: response.status, error_message: response.body
       end
     end
   end
