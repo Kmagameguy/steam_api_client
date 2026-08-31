@@ -76,7 +76,7 @@ module SteamApiClient
       private
 
       def metadata_flags(value)
-        PERSONA_STATE_FLAGS.reject { |_name, bit| value.anybits?(bit) }.keys
+        PERSONA_STATE_FLAGS.select { |_name, bit| value.anybits?(bit) }.keys
       end
 
       attr_reader :profile_configured, :comments_allowed
