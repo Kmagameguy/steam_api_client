@@ -174,7 +174,7 @@ module SteamApiClient
     end
 
     def connection
-      @connection ||= Connection.new
+      @connection ||= Connection.instance
     end
   end
 end

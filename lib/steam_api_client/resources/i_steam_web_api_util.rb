@@ -9,11 +9,11 @@ module SteamApiClient
       API_VERSION  = "v0001"
       GET_SUPPORTED_API_LIST = "GetSupportedAPIList"
 
-      def self.supported_api_list(connection: ::SteamApiClient::Connection.new)
+      def self.supported_api_list(connection: ::SteamApiClient::Connection.instance)
         new(connection: connection).supported_api_list
       end
 
-      def initialize(connection: ::SteamApiClient::Connection.new)
+      def initialize(connection: ::SteamApiClient::Connection.instance)
         @connection = connection
       end
 

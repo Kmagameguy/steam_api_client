@@ -36,7 +36,7 @@ module SteamApiClient
 
       attr_accessor :steam_id
 
-      def self.steam_id_for_vanity_url(vanity_url, url_type: :default, connection: ::SteamApiClient::Connection.new)
+      def self.steam_id_for_vanity_url(vanity_url, url_type: :default, connection: ::SteamApiClient::Connection.instance)
         new(connection: connection).steam_id_for_vanity_url(vanity_url, url_type: url_type)
       end
 
@@ -44,7 +44,7 @@ module SteamApiClient
         VANITY_URL_TYPES.keys
       end
 
-      def initialize(steam_id: nil, connection: ::SteamApiClient::Connection.new)
+      def initialize(steam_id: nil, connection: ::SteamApiClient::Connection.instance)
         @steam_id   = steam_id
         @connection = connection
       end

@@ -16,7 +16,7 @@ module SteamApiClient
       DEFAULT_APP_LIST_RESULT_COUNT = 10_000
       MAX_APP_LIST_RESULT_COUNT     = 50_000
 
-      def initialize(connection: ::SteamApiClient::Connection.new)
+      def initialize(connection: ::SteamApiClient::Connection.instance)
         @connection = connection
       end
 

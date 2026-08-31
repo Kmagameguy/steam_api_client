@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-# TODO: Probably should make this a singleton...
+require "singleton"
+
 module SteamApiClient
   class Connection
+    include Singleton
 
     attr_reader :config
 

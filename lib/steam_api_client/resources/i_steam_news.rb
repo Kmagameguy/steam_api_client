@@ -12,7 +12,7 @@ module SteamApiClient
 
       attr_accessor :app_id
 
-      def initialize(app_id:, connection: ::SteamApiClient::Connection.new)
+      def initialize(app_id:, connection: ::SteamApiClient::Connection.instance)
         @app_id     = app_id
         @connection = connection
 
