@@ -58,7 +58,11 @@ module SteamApiClient
         }.select { |_, v| v }
 
         response = connection.get(build_url(GET_FRIEND_LIST), params)
-        process_response(response, key: nil)
+        processed_response = process_response(response, key: "friendslist")&.dig("friends") || []
+
+        processed_response.map do |item|
+          Models::UserFriend.new(item)
+        end
       end
 
       def player_bans(additional_steam_ids: [])
