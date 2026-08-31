@@ -35,6 +35,7 @@ Metrics/CyclomaticComplexity:
 
 Metrics/MethodLength:
   Exclude:
+    - lib/steam_api_client/models/game_news.rb
     - lib/steam_api_client/models/user_owned_game.rb
     - lib/steam_api_client/models/user_profile.rb
     - lib/steam_api_client/resources/i_store_service.rb
