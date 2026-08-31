@@ -14,8 +14,7 @@ module SteamApiClient
       @api_key_domain = ENV.fetch("STEAM_API_KEY_DOMAIN")
       @api_root_url = ENV.fetch("STEAM_API_ROOT_URL", DEFAULT_API_ROOT_URL)
 
-      raise Error, "Invalid API Key" if @api_key == "secret" || @api_key.strip.empty?
-      raise Error, "Invalid API Key Domain" if @api_key == "your-domain.com" || @api_k
+      validate_config
     end
 
     def user_agent_string
