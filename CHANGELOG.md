@@ -9,7 +9,7 @@
 game = my_user.games.max_by(&:linux_playtime)
 puts "#{game.name}: #{game.linux_playtime_humanized}"
 "Assassin's Creed Valhalla: 4 days, 6 hours, 3 minutes"
-=>
+=> nil
 
 game = my_user.games.min_by(&:mac_playtime)
 puts "#{game.name}: #{game.mac_playtime_humanized}"
