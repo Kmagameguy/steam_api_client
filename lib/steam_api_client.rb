@@ -28,6 +28,10 @@ module SteamApiClient
     autoload :UserWishlistItem,          "steam_api_client/models/user_wishlist_item"
   end
 
+  module Refinements
+    autoload :IntegerRefinements, "steam_api_client/refinements/integer_refinements"
+  end
+
   module Resources
     autoload :IPlayerService,   "steam_api_client/resources/i_player_service"
     autoload :ISteamNews,       "steam_api_client/resources/i_steam_news"

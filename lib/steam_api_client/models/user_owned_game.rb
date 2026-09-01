@@ -3,6 +3,7 @@
 module SteamApiClient
   module Models
     class UserOwnedGame < Game
+      using Refinements::IntegerRefinements
       include Concerns::TimeCastable
 
       attr_reader :steam_id,
@@ -14,6 +15,48 @@ module SteamApiClient
                   :steam_deck_playtime,
                   :last_played_at,
                   :offline_playtime
+
+      def playtime_last_two_weeks_humaized
+        return "never" unless playtime_last_two_weeks.positive?
+
+        playtime_last_two_weeks.minutes_as_human_readable_time
+      end
+
+      def total_playtime_humanized
+        return "never" unless total_playtime.positive?
+
+        total_playtime.minutes_as_human_readable_time
+      end
+
+      def windows_playtime_humanized
+        return "never" unless windows_playtime.positive?
+
+        windows_playtime.minutes_as_human_readable_time
+      end
+
+      def mac_playtime_humanized
+        return "never" unless mac_playtime.positive?
+
+        mac_playtime.minutes_as_human_readable_time
+      end
+
+      def linux_playtime_humanized
+        return "never" unless linux_playtime.positive?
+
+        linux_playtime.minutes_as_human_readable_time
+      end
+
+      def steam_deck_playtime_humanized
+        return "never" unless steam_deck_playtime.positive?
+
+        steam_deck_playtime.minutes_as_human_readable_time
+      end
+
+      def offline_playtime_humanized
+        return "never" unless offline_playtime.positive?
+
+        offline_playtime.minutes_as_human_readable_time
+      end
 
       def to_h
         {}.merge(steam_id: steam_id).merge(super).merge(
