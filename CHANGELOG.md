@@ -2,6 +2,17 @@
 
 ## Unreleased Changes
 
+## v0.0.2
+This is being released as 0.0.2 but contains a **Breaking Change**. In future this would be handled w/proper semver semantics but I'd still consider this gem in pre-release and I don't want to burn through major versions too early and inadvertently suggest stability where it isn't warranted. So, sticking with patch-increments for now.
+
+### Enhancements
+- `game.content_descriptor_ids` has been replaced with `game.mature_content_warnings`; these are string-based enum values now instead of the opaque integers returned by Steam's API.
+
+### Bug Fixes
+- Fix broken `ENV` validations in `Config`
+- Auto-load the `VERSION` constant
+- Fix metadata enumeration
+
 ## v0.0.1
 Initial API integration. Supports the following API services:
 - IPlayerService
