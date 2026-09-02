@@ -59,6 +59,7 @@ Style/FetchEnvVar:
   Exclude:
     - .irbrc
     - lib/steam_api_client/steam_user.rb
+    - test/test_helper.rb
 
 Style/FrozenStringLiteralComment:
   Exclude:
