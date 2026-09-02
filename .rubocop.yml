@@ -26,6 +26,7 @@ Metrics/BlockLength:
   Exclude:
     - test/cases/models/game_news_test.rb
     - test/cases/models/user_owned_game_test.rb
+    - test/cases/models/user_profile_test.rb
 
 Metrics/ClassLength:
   Exclude:

@@ -57,10 +57,10 @@ module SteamApiClient
         @comments_allowed         = raw_attributes["commentpermission"].to_i
         @url                      = raw_attributes["profileurl"]
         @avatar                   = raw_attributes["avatarfull"]
-        @last_seen                = cast_to_time(raw_attributes["lastlogoff"])
+        @last_seen                = cast_to_time(raw_attributes["lastlogoff"].to_i)
         @chat_status              = CHAT_STATUS_ENUM[raw_attributes["personastate"].to_i]
-        @primary_clan_id          = raw_attributes["primaryclanid"]
-        @created_at               = cast_to_time(raw_attributes["timecreated"])
+        @primary_clan_id          = raw_attributes["primaryclanid"].to_i
+        @created_at               = cast_to_time(raw_attributes["timecreated"].to_i)
         @metadata                 = metadata_flags(raw_attributes["personastateflags"].to_i)
         @country                  = raw_attributes["loccountrycode"] || "Unknown"
       end
