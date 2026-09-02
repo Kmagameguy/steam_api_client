@@ -15,7 +15,7 @@ module SteamApiClient
     end
 
     autoload :Game,                      "steam_api_client/models/game"
-    autoload :GameAchievementPercentage, "steam_api_client/models/game_achievement_percentage"
+    autoload :GameGlobalAchievement,     "steam_api_client/models/game_global_achievement"
     autoload :GameNews,                  "steam_api_client/models/game_news"
     autoload :UserBan,                   "steam_api_client/models/user_ban"
     autoload :UserFollowedGame,          "steam_api_client/models/user_followed_game"

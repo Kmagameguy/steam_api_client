@@ -35,7 +35,7 @@ module SteamApiClient
         processed_response = process_response(response, key: :achievementpercentages)&.dig("achievements")
 
         processed_response.map do |item|
-          Models::GameAchievementPercentage.new(item)
+          Models::GameGlobalAchievement.new(item)
         end
       end
 
