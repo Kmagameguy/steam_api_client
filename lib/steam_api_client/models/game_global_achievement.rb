@@ -2,10 +2,12 @@
 
 module SteamApiClient
   module Models
-    class GameAchievementPercentage
+    class GameGlobalAchievement
+      attr_reader :name, :percent_unlocked
+
       def initialize(raw_attributes = {})
         @name = raw_attributes["name"]
-        @value = raw_attributes["percent"].to_f
+        @percent_unlocked = raw_attributes["percent"].to_f
       end
     end
   end

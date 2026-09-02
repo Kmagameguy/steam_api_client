@@ -22,7 +22,7 @@ module SteamApiClient
                   :post_date
 
       def initialize(raw_attributes = {})
-        @app_id          = raw_attributes["appid"]
+        @app_id          = raw_attributes["appid"].to_i
         @id              = raw_attributes["gid"].to_i
         @heading         = raw_attributes["title"]
         @author          = raw_attributes["author"]

@@ -35,7 +35,7 @@ module SteamApiClient
         processed_response = process_response(response, key: :achievementpercentages)&.dig("achievements")
 
         processed_response.map do |item|
-          Models::GameAchievementPercentage.new(item)
+          Models::GameGlobalAchievement.new(item)
         end
       end
 
@@ -54,10 +54,10 @@ module SteamApiClient
         raise NoSteamIdError if steam_id.nil?
 
         response = connection.get(build_url(GET_USER_STATS_FOR_GAME), { steamid: steam_id, appid: app_id })
-        processed_response = process_response(response, key: :playerstats)&.dig("stats") || []
+        processed_response = process_response(response, key: :playerstats)&.dig("stats") || {}
 
         processed_response.keys.map do |key|
-          Models::UserGameStat.new(processed_response[key].merge("_key_name" => key))
+          Models::UserGameStat.new(processed_response[key].merge({ "_key_name" => key, "steam_id" => steam_id }))
         end
       end
 

@@ -74,7 +74,7 @@ module SteamApiClient
         response = connection.get(build_url(GET_PLAYER_BANS), { steamids: steam_ids.join(",") })
         processed_response = process_response(response, key: :players)
 
-        processed_response.map do |item|
+        processed_response.map! do |item|
           Models::UserBan.new(item)
         end
 
