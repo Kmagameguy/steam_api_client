@@ -16,7 +16,7 @@ module SteamApiClient
                   :last_played_at,
                   :offline_playtime
 
-      def playtime_last_two_weeks_humaized
+      def playtime_last_two_weeks_humanized
         return "never" unless playtime_last_two_weeks.positive?
 
         playtime_last_two_weeks.minutes_as_human_readable_time
@@ -85,14 +85,14 @@ module SteamApiClient
 
       def post_initialize_hook
         @steam_id            = @raw_attributes["steam_id"].to_i
-        @playtime_last_two_weeks = @raw_attributes["playtime_2weeks"]      || 0
-        @total_playtime      = @raw_attributes["playtime_forever"]         || 0
-        @windows_playtime    = @raw_attributes["playtime_windows_forever"] || 0
-        @mac_playtime        = @raw_attributes["playtime_mac_forever"]     || 0
-        @linux_playtime      = @raw_attributes["playtime_linux_forever"]   || 0
-        @steam_deck_playtime = @raw_attributes["playtime_deck_forever"]    || 0
-        @last_played_at      = cast_to_time(@raw_attributes["rtime_last_played"])
-        @offline_playtime    = @raw_attributes["playtime_disconnected"]    || 0
+        @playtime_last_two_weeks = @raw_attributes["playtime_2weeks"].to_i
+        @total_playtime      = @raw_attributes["playtime_forever"].to_i
+        @windows_playtime    = @raw_attributes["playtime_windows_forever"].to_i
+        @mac_playtime        = @raw_attributes["playtime_mac_forever"].to_i
+        @linux_playtime      = @raw_attributes["playtime_linux_forever"].to_i
+        @steam_deck_playtime = @raw_attributes["playtime_deck_forever"].to_i
+        @last_played_at      = cast_to_time(@raw_attributes["rtime_last_played"].to_i)
+        @offline_playtime    = @raw_attributes["playtime_disconnected"].to_i
       end
 
       private
