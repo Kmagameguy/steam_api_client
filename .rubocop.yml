@@ -22,6 +22,10 @@ Layout/SpaceAroundOperators:
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - test/cases/models/game_news_test.rb
+
 Metrics/ClassLength:
   Exclude:
     # Excluding this for now while I build-up the gem. Might refactor this to be smaller eventually.
