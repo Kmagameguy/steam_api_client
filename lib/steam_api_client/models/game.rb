@@ -44,7 +44,7 @@ module SteamApiClient
           h[:id]           = id
           h[:name]         = name
           h[:img_icon_url] = img_icon_url
-          h[:content_descriptor_ids] = content_descriptor_ids
+          h[:mature_content_warnings] = mature_content_warnings
         end
       end
 
