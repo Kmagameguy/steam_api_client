@@ -2,6 +2,23 @@
 
 ## Unreleased Changes
 
+## v0.0.4
+### Breaking Changes
+- `Models::GameAchievementPercentage` has been renamed to `Models::GameGlobalAchievement`.
+- `Models::GameGlobalAchievement#value` is now `Models::GameGlobalAchievement#percent_unlocked`.
+- `Models::UserOwnedGame#playtime_last_two_weeks_humaized` typo is now fixed: `Models::UserOwnedGame#playtime_last_two_weeks_humanized`
+
+### Enhancements
+- `Resources::ISteamUserStats#player_stats_for_game` now merges the user's `steam_id` into the API's JSON response.
+- `Models::UserGameStat#steam_id` is now available as a public instance method.
+- Add code coverage for `models/`.
+
+### Bug Fixes
+- `Models::Game#to_h` and `Models::Game#attributes` now correctly include `mature_content_warnings` instead of crashing.
+- `Resources::ISteamUser#player_bans` now correctly returns instances of `Models::UserBan` instead of the plain JSON response.
+- `Resources::ISteamUserStats#player_stats_for_game` no longer crashes if the `"stats"` key isn't present in the API's JSON response.
+- Several fixes for crashes caused by passing a string value instead of an integer into `Concerns::TimeCastable#cast_to_time`.
+
 ## v0.0.3
 ### Enhancements
 - New `IntegerRefinements` on `UserOwnedGame`. Now you can ask to see your playtimes in more human-readable formats:
