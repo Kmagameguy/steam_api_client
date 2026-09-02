@@ -10,8 +10,8 @@ module SteamApiClient
       def initialize(raw_attributes = {})
         @steam_id   = raw_attributes["steam_id"].to_i
         @app_id     = raw_attributes["appid"].to_i
-        @priority   = raw_attributes["priority"] || 0
-        @date_added = cast_to_time(raw_attributes["date_added"])
+        @priority   = raw_attributes["priority"].to_i
+        @date_added = cast_to_time(raw_attributes["date_added"].to_i)
       end
     end
   end
