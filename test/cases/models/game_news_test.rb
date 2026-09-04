@@ -14,7 +14,7 @@ module SteamApiClient
           "contents" => "Patch notes go here.",
           "feedname" => "steam_updates",
           "feed_type" => 1,
-          "tag" => "patchnotes",
+          "tags" => ["patchnotes"],
           "url" => "https://store.steampowered.com/news/app/440",
           "is_external_url" => false,
           "date" => 1_700_000_000
@@ -60,8 +60,8 @@ module SteamApiClient
           end
         end
 
-        it "exposes the tag as a field" do
-          assert_equal "patchnotes", game_news.tag
+        it "exposes the tags as a field" do
+          assert_equal ["patchnotes"], game_news.tags
         end
 
         it "exposes the url as a field" do
