@@ -2,6 +2,22 @@
 
 ## Unreleased Changes
 
+## v0.0.5
+### Breaking Changes
+- `Models::GameNews#tag` is now `Models::GameNews#tags`.
+- `Resources::*` class error messages are now a proper string instead of a fake hash.
+- `Resources::ISteamUser` and `SteamUser` now raise a `PrivateResourceError` if a user's friend list is private.
+- `Resources::ISteamUser#player_profile` now returns `nil` instead of a blank `UserProfile` instance when a player's profile isn't found or configured.
+- `Resources::IStoreService` instance methods that require a `steam_id` now all raise `NoSteamIdError` if the provided `steam_id` is `nil`.
+
+### Enhancements
+- Add test coverage for `resources/`, along with `connection` and `config`
+
+### Bug Fixes
+- `Models::GameNews#tags` are now correctly parsed as an array of values.
+- `Resources::IPlayerService` now correctly sets steam_id on instances of `UserOwnedGame`.
+- `Resources::IStoreService#app_list` now correctly parses options and only applies overrides when necessary.
+
 ## v0.0.4
 ### Breaking Changes
 - `Models::GameAchievementPercentage` has been renamed to `Models::GameGlobalAchievement`.
@@ -11,7 +27,7 @@
 ### Enhancements
 - `Resources::ISteamUserStats#player_stats_for_game` now merges the user's `steam_id` into the API's JSON response.
 - `Models::UserGameStat#steam_id` is now available as a public instance method.
-- Add code coverage for `models/`.
+- Add test coverage for `models/`.
 
 ### Bug Fixes
 - `Models::Game#to_h` and `Models::Game#attributes` now correctly include `mature_content_warnings` instead of crashing.
