@@ -70,6 +70,8 @@ module SteamApiClient
       @friends = nil if bypass_cache
 
       @friends ||= steam_user_service.friend_list(relationship: relationship_type)
+    rescue Resources::ISteamUser::PrivateResourceError
+      raise
     rescue StandardError => _e
       @friends = []
     end

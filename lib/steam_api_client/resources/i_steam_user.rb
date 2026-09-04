@@ -7,6 +7,7 @@ module SteamApiClient
       class NoSteamIdError < Error; end
       class TooManyIdsError < Error; end
       class InvalidUrlTypeError < Error; end
+      class PrivateResourceError < Error; end
 
       SERVICE_NAME         = "ISteamUser"
       GET_FRIEND_LIST      = "GetFriendList"
@@ -49,6 +50,9 @@ module SteamApiClient
         @connection = connection
       end
 
+      # TODO: This will return 401 Unauthorized if a user's friend list is private.
+      # We should either cast that to a more friendly error message (e.g. PrivateListError) or handle it
+      # gracefully (maybe ! vs non-! methods?)
       def friend_list(relationship: nil)
         raise NoSteamIdError if steam_id.nil?
 
@@ -58,11 +62,11 @@ module SteamApiClient
         }.select { |_, v| v }
 
         response = connection.get(build_url(GET_FRIEND_LIST), params)
-        processed_response = process_response(response, key: "friendslist")&.dig("friends") || []
 
-        processed_response.map do |item|
-          Models::UserFriend.new(item)
-        end
+        raise PrivateResourceError, "#{steam_id}'s friend list is private." if response.status == 401
+
+        processed_response = process_response(response, key: "friendslist")&.dig("friends") || []
+        processed_response.map { |item| Models::UserFriend.new(item) }
       end
 
       def player_bans(additional_steam_ids: [])
