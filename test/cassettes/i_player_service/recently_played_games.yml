@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=<STEAM_API_KEY>&steamid=<MY_STEAM_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ example.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '818'
+      X-Eresult:
+      - '1'
+      Expires:
+      - Thu, 03 Sep 2026 00:34:48 GMT
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Pragma:
+      - no-cache
+      Date:
+      - Thu, 03 Sep 2026 00:34:48 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"total_count":3,"games":[{"appid":220,"name":"Half-Life
+        2","playtime_2weeks":438,"playtime_forever":1999,"img_icon_url":"fcfb366051782b8ebf2aa297f3b746395858cb62","playtime_windows_forever":0,"playtime_mac_forever":0,"playtime_linux_forever":943,"playtime_deck_forever":0},{"appid":3641000,"name":"The
+        Incident at Galley House","playtime_2weeks":95,"playtime_forever":352,"img_icon_url":"ec2f78bc86c3612ad089f4af47f7b3554f342135","playtime_windows_forever":0,"playtime_mac_forever":0,"playtime_linux_forever":352,"playtime_deck_forever":0},{"appid":240,"name":"Counter-Strike:
+        Source","playtime_2weeks":62,"playtime_forever":15777,"img_icon_url":"9052fa60c496a1c03383b27687ec50f4bf0f0e10","playtime_windows_forever":2670,"playtime_mac_forever":0,"playtime_linux_forever":3455,"playtime_deck_forever":0}]}}'
+  recorded_at: Thu, 03 Sep 2026 00:34:48 GMT
+recorded_with: VCR 6.4.0
