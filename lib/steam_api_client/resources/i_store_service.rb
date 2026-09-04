@@ -4,7 +4,8 @@ module SteamApiClient
   module Resources
     class IStoreService
       class Error < StandardError; end
-      class TooManyResultsRequestedError < StandardError; end
+      class NoSteamIdError < Error; end
+      class TooManyResultsRequestedError < Error; end
 
       SERVICE_NAME = "IStoreService"
       API_VERSION  = "v0001"
@@ -50,6 +51,8 @@ module SteamApiClient
       end
 
       def games_followed_by(steam_id:)
+        raise NoSteamIdError if steam_id.nil?
+
         response = connection.get(build_url(GET_GAMES_FOLLOWED), { steamid: steam_id })
         processed_response = process_response(response)&.dig("appids") || []
 
@@ -59,6 +62,8 @@ module SteamApiClient
       end
 
       def games_followed_by_count(steam_id:)
+        raise NoSteamIdError if steam_id.nil?
+
         response = connection.get(build_url(GET_GAMES_FOLLOWED_COUNT), { steamid: steam_id })
         process_response(response)
       end
