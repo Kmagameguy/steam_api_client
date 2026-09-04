@@ -24,21 +24,20 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - test/cases/models/game_news_test.rb
-    - test/cases/models/user_owned_game_test.rb
-    - test/cases/models/user_profile_test.rb
+    - test/**/*_test.rb
 
 Metrics/ClassLength:
   Exclude:
     # Excluding this for now while I build-up the gem. Might refactor this to be smaller eventually.
     - lib/steam_api_client/steam_user.rb
     - lib/steam_api_client/resources/i_steam_user.rb
-    - test/cases/models/user_owned_game_test.rb
+    - test/**/*_test.rb
 
 Metrics/CyclomaticComplexity:
   Exclude:
     - lib/steam_api_client/models/user_owned_game.rb
     - lib/steam_api_client/resources/i_store_service.rb
+    - test/**/*_test.rb
 
 Metrics/MethodLength:
   Exclude:
