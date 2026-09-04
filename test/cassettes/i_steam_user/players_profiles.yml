@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002?key=<STEAM_API_KEY>&steamids=<MY_STEAM_ID>,<TEST_STEAM_ID2>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Thu, 03 Sep 2026 23:07:37 GMT
+      Date:
+      - Thu, 03 Sep 2026 23:07:37 GMT
+      Content-Length:
+      - '1406'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"players":[{"steamid":"<TEST_STEAM_ID2>","communityvisibilitystate":3,"profilestate":1,"personaname":"Robin","profileurl":"https://steamcommunity.com/id/robinwalker/","avatar":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9.jpg","avatarmedium":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9_medium.jpg","avatarfull":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9_full.jpg","avatarhash":"81b5478529dce13bf24b55ac42c1af7058aaf7a9","personastate":0,"realname":"Robin
+        Walker","primaryclanid":"103582791429521412","timecreated":1063407589,"personastateflags":0,"loccountrycode":"US","locstatecode":"WA","loccityid":3961},{"steamid":"<MY_STEAM_ID>","communityvisibilitystate":3,"profilestate":1,"personaname":"Inspector
+        Detector","commentpermission":2,"profileurl":"https://steamcommunity.com/profiles/<MY_STEAM_ID>/","avatar":"https://avatars.steamstatic.com/e1829412472eb315abeb9faa052478457df997f3.jpg","avatarmedium":"https://avatars.steamstatic.com/e1829412472eb315abeb9faa052478457df997f3_medium.jpg","avatarfull":"https://avatars.steamstatic.com/e1829412472eb315abeb9faa052478457df997f3_full.jpg","avatarhash":"e1829412472eb315abeb9faa052478457df997f3","lastlogoff":1735495934,"personastate":0,"primaryclanid":"103582791429521408","timecreated":1140744021,"personastateflags":0,"loccountrycode":"US"}]}}'
+  recorded_at: Thu, 03 Sep 2026 23:07:37 GMT
+recorded_with: VCR 6.4.0
