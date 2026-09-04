@@ -70,9 +70,10 @@ module SteamApiClient
       end
 
       def player_bans(additional_steam_ids: [])
-        raise NoSteamIdError if steam_id.nil? && (additional_steam_ids.nil? || Array(additional_steam_ids).empty?)
+        additional_steam_ids = Array(additional_steam_ids).compact.map(&:to_i)
+        raise NoSteamIdError if steam_id.nil? && additional_steam_ids.empty?
 
-        steam_ids = ([steam_id] + Array(additional_steam_ids)).compact.uniq.sort
+        steam_ids = ([steam_id.to_i] + additional_steam_ids).uniq.sort
         raise TooManyIdsError if steam_ids.size > STEAM_ID_QUERY_LIMIT
 
         response = connection.get(build_url(GET_PLAYER_BANS), { steamids: steam_ids.join(",") })
