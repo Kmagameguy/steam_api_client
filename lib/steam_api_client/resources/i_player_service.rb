@@ -48,7 +48,7 @@ module SteamApiClient
         processed_response = process_response(response)&.dig("games") || []
 
         processed_response.map do |item|
-          Models::UserOwnedGame.new(item)
+          Models::UserOwnedGame.new(item.merge("steam_id" => steam_id))
         end
       end
 
