@@ -27,12 +27,12 @@ module SteamApiClient
         end
 
         if_modified_since = options[:modified_after].is_a?(Time) ? options[:modified_after].to_i : nil
-        include_games     = options[:include_games]    || true
-        include_dlc       = options[:include_dlc]      || false
-        include_software  = options[:include_software] || false
-        include_videos    = options[:include_videos]   || false
-        include_hardware  = options[:include_hardware] || false
-        max_results       = options[:max_results]      || DEFAULT_APP_LIST_RESULT_COUNT
+        include_games     = options.fetch(:include_games, true)
+        include_dlc       = options.fetch(:include_dlc, false)
+        include_software  = options.fetch(:include_software, false)
+        include_videos    = options.fetch(:include_videos, false)
+        include_hardware  = options.fetch(:include_hardware, false)
+        max_results       = options.fetch(:max_results, DEFAULT_APP_LIST_RESULT_COUNT)
         app_id_offset     = options[:app_id_offset]
 
         params = {
