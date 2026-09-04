@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/IStoreService/GetAppList/v0001?include_dlc=false&include_games=false&include_hardware=true&include_software=true&include_videos=false&key=<STEAM_API_KEY>&last_appid=220700&max_results=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '545'
+      X-Eresult:
+      - '1'
+      Expires:
+      - Thu, 03 Sep 2026 23:38:50 GMT
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Pragma:
+      - no-cache
+      Date:
+      - Thu, 03 Sep 2026 23:38:50 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"apps":[{"appid":220960,"name":"ACDSee 15","last_modified":1447356624,"price_change_number":26287339},{"appid":220980,"name":"CRYENGINE","last_modified":1478096497,"price_change_number":0},{"appid":221220,"name":"iPi
+        Recorder 2","last_modified":1447356650,"price_change_number":26287339},{"appid":223850,"name":"3DMark","last_modified":1756127655,"price_change_number":38290664},{"appid":224280,"name":"RPG
+        Maker VX Ace Lite","last_modified":1681350700,"price_change_number":26253459}],"have_more_results":true,"last_appid":224280}}'
+  recorded_at: Thu, 03 Sep 2026 23:38:50 GMT
+recorded_with: VCR 6.4.0
