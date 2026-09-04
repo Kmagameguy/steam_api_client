@@ -29,9 +29,7 @@ if ENV["STEAM_API_KEY_DOMAIN"].to_s.strip.empty? || ENV["STEAM_API_KEY_DOMAIN"] 
   ENV["STEAM_API_KEY_DOMAIN"] = "example.com"
 end
 
-if ENV["MY_STEAM_ID"].to_s.strip.empty?
-  ENV["MY_STEAM_ID"] = TestFixtures::TEST_STEAM_ID1
-end
+ENV["MY_STEAM_ID"] = TestFixtures::TEST_STEAM_ID1 if ENV["MY_STEAM_ID"].to_s.strip.empty?
 
 Bundler.setup(:default, :test)
 

@@ -92,7 +92,7 @@ module SteamApiClient
         it "can fetch ban history for many steam_ids at once" do
           VCR.use_cassette("i_steam_user/player_bans_multiple_steam_ids") do
             player_bans = subject.new(steam_id: steam_id)
-              .player_bans(additional_steam_ids: [TestFixtures::TEST_STEAM_ID2])
+                                 .player_bans(additional_steam_ids: [TestFixtures::TEST_STEAM_ID2])
 
             assert_operator player_bans.size, :>, 1
             assert_kind_of Models::UserBan, player_bans.first

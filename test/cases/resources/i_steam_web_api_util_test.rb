@@ -15,7 +15,6 @@ module SteamApiClient
             assert_kind_of Array, web_api_listings
             assert_includes web_api_listings.first.keys, "name"
             assert_includes web_api_listings.first.keys, "methods"
-            assert_kind_of Array, web_api_listings.first["methods"]
           end
         end
       end

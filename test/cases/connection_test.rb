@@ -22,7 +22,7 @@ module SteamApiClient
 
         http_connection = mock
         http_connection.expects(:get)
-                       .with("/IStoreService/GetAppList/v1/", params.merge(key: ENV["STEAM_API_KEY"]))
+                       .with("/IStoreService/GetAppList/v1/", params.merge(key: ENV.fetch("STEAM_API_KEY", nil)))
                        .returns(:response)
 
         subject.stubs(:connection).returns(http_connection)
@@ -38,7 +38,7 @@ module SteamApiClient
         http_connection = mock
         request = mock
 
-        request.expects(:[]=).with(:key, ENV["STEAM_API_KEY"])
+        request.expects(:[]=).with(:key, ENV.fetch("STEAM_API_KEY", nil))
         request.expects(:body=).with({ foo: "bar" })
         http_connection.expects(:post).yields(request).returns(:response)
 
