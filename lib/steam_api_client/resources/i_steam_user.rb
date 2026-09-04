@@ -90,7 +90,9 @@ module SteamApiClient
         raise NoSteamIdError if steam_id.nil?
 
         response = connection.get(build_url(GET_PLAYER_SUMMARIES), { steamids: steam_id })
-        processed_response = process_response(response, key: :response)&.dig("players")&.first || {}
+        processed_response = process_response(response, key: :response)&.dig("players")&.first
+
+        return unless processed_response
 
         Models::UserProfile.new(processed_response)
       end
