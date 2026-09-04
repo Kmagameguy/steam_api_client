@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 puts "== Running Tests =="
-system("bundle exec rake test") || abort
+exec("bundle", "exec", "rake", "test") || abort
