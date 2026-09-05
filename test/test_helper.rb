@@ -9,8 +9,10 @@ require "minitest/autorun"
 require "minitest/spec"
 require "minitest/stub_const"
 require "mocha/minitest"
+require "simplecov"
 require "vcr"
 
+SimpleCov.start
 Dotenv.load(".env.test.local", ".env.test", ".env.local", ".env")
 
 # Replace these with real IDs when re-recording cassettes!!

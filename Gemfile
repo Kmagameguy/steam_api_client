@@ -20,6 +20,7 @@ group :test do
   gem "minitest-reporters"
   gem "minitest-stub-const"
   gem "mocha"
+  gem "simplecov", require: false
   gem "vcr"
   gem "webmock"
 end

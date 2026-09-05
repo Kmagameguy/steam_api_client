@@ -8,4 +8,4 @@ tmp
 .env.*
 .DS_Store
 .irb_history
-
+coverage/
