@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/IWishlistService/GetWishlist/v0001?key=<STEAM_API_KEY>&steamid=<MY_STEAM_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '3676'
+      X-Eresult:
+      - '1'
+      Expires:
+      - Thu, 03 Sep 2026 23:54:20 GMT
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Pragma:
+      - no-cache
+      Date:
+      - Thu, 03 Sep 2026 23:54:20 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"items":[{"appid":482400,"priority":6,"date_added":1685615147},{"appid":500810,"priority":0,"date_added":1778379855},{"appid":532790,"priority":0,"date_added":1763518938},{"appid":597820,"priority":12,"date_added":1722554173},{"appid":731040,"priority":9,"date_added":1699213929},{"appid":1043340,"priority":0,"date_added":1778379614},{"appid":1086940,"priority":0,"date_added":1760063879},{"appid":1133760,"priority":35,"date_added":1742608347},{"appid":1351630,"priority":16,"date_added":1729886891},{"appid":1449110,"priority":21,"date_added":1734074684},{"appid":1466060,"priority":39,"date_added":1748469112},{"appid":1488490,"priority":1,"date_added":1691145408},{"appid":1620730,"priority":0,"date_added":1761871476},{"appid":1636440,"priority":0,"date_added":1787697893},{"appid":1718460,"priority":0,"date_added":1765636913},{"appid":1732190,"priority":0,"date_added":1757984053},{"appid":1934570,"priority":36,"date_added":1744398635},{"appid":1941540,"priority":19,"date_added":1733792054},{"appid":1967390,"priority":7,"date_added":1652874841},{"appid":1967610,"priority":20,"date_added":1734056426},{"appid":1996770,"priority":10,"date_added":1706395116},{"appid":2050650,"priority":5,"date_added":1673278511},{"appid":2075800,"priority":0,"date_added":1785496189},{"appid":2124490,"priority":8,"date_added":1695554526},{"appid":2130460,"priority":0,"date_added":1757984046},{"appid":2215200,"priority":0,"date_added":1779672467},{"appid":2239150,"priority":24,"date_added":1736594868},{"appid":2272360,"priority":0,"date_added":1769767814},{"appid":2316580,"priority":15,"date_added":1729592850},{"appid":2364580,"priority":0,"date_added":1776998437},{"appid":2384580,"priority":25,"date_added":1737075306},{"appid":2416450,"priority":0,"date_added":1776206130},{"appid":2417610,"priority":2,"date_added":1690665202},{"appid":2448020,"priority":0,"date_added":1760063701},{"appid":2478970,"priority":3,"date_added":1707915338},{"appid":2483190,"priority":0,"date_added":1779070722},{"appid":2487330,"priority":0,"date_added":1780541371},{"appid":2525380,"priority":29,"date_added":1740704938},{"appid":2533600,"priority":11,"date_added":1718829317},{"appid":2545710,"priority":30,"date_added":1741111755},{"appid":2617340,"priority":32,"date_added":1741573250},{"appid":2713000,"priority":54,"date_added":1757256860},{"appid":2731870,"priority":17,"date_added":1729886849},{"appid":2756920,"priority":27,"date_added":1739416813},{"appid":2794770,"priority":0,"date_added":1761418498},{"appid":2947440,"priority":0,"date_added":1758485258},{"appid":3010850,"priority":4,"date_added":1720348729},{"appid":3017860,"priority":13,"date_added":1723212363},{"appid":3035570,"priority":18,"date_added":1729197499},{"appid":3043580,"priority":43,"date_added":1749416357},{"appid":3143530,"priority":0,"date_added":1769210642},{"appid":3159330,"priority":34,"date_added":1742468827},{"appid":3286930,"priority":48,"date_added":1754612922},{"appid":3314060,"priority":26,"date_added":1738782658},{"appid":3357650,"priority":0,"date_added":1761871299},{"appid":3669870,"priority":0,"date_added":1765510868},{"appid":3676410,"priority":0,"date_added":1780871281},{"appid":3751950,"priority":0,"date_added":1776992834},{"appid":3763470,"priority":41,"date_added":1749253876},{"appid":3764200,"priority":42,"date_added":1749329563},{"appid":3768760,"priority":0,"date_added":1780018097},{"appid":3859630,"priority":0,"date_added":1771109683},{"appid":3920610,"priority":0,"date_added":1757984058},{"appid":4078430,"priority":0,"date_added":1780871774},{"appid":4824610,"priority":0,"date_added":1780871440},{"appid":3751260,"priority":0,"date_added":1788451806}]}}'
+  recorded_at: Thu, 03 Sep 2026 23:54:20 GMT
+recorded_with: VCR 6.4.0

@@ -7,6 +7,7 @@ module SteamApiClient
       class NoSteamIdError < Error; end
       class TooManyIdsError < Error; end
       class InvalidUrlTypeError < Error; end
+      class PrivateResourceError < Error; end
 
       SERVICE_NAME         = "ISteamUser"
       GET_FRIEND_LIST      = "GetFriendList"
@@ -49,6 +50,9 @@ module SteamApiClient
         @connection = connection
       end
 
+      # TODO: This will return 401 Unauthorized if a user's friend list is private.
+      # We should either cast that to a more friendly error message (e.g. PrivateListError) or handle it
+      # gracefully (maybe ! vs non-! methods?)
       def friend_list(relationship: nil)
         raise NoSteamIdError if steam_id.nil?
 
@@ -58,17 +62,18 @@ module SteamApiClient
         }.select { |_, v| v }
 
         response = connection.get(build_url(GET_FRIEND_LIST), params)
-        processed_response = process_response(response, key: "friendslist")&.dig("friends") || []
 
-        processed_response.map do |item|
-          Models::UserFriend.new(item)
-        end
+        raise PrivateResourceError, "#{steam_id}'s friend list is private." if response.status == 401
+
+        processed_response = process_response(response, key: "friendslist")&.dig("friends") || []
+        processed_response.map { |item| Models::UserFriend.new(item) }
       end
 
       def player_bans(additional_steam_ids: [])
-        raise NoSteamIdError if steam_id.nil? && (additional_steam_ids.nil? || Array(additional_steam_ids).empty?)
+        additional_steam_ids = Array(additional_steam_ids).compact.map(&:to_i)
+        raise NoSteamIdError if steam_id.nil? && additional_steam_ids.empty?
 
-        steam_ids = ([steam_id] + Array(additional_steam_ids)).compact.uniq.sort
+        steam_ids = ([steam_id.to_i] + additional_steam_ids).uniq.sort
         raise TooManyIdsError if steam_ids.size > STEAM_ID_QUERY_LIMIT
 
         response = connection.get(build_url(GET_PLAYER_BANS), { steamids: steam_ids.join(",") })
@@ -85,7 +90,9 @@ module SteamApiClient
         raise NoSteamIdError if steam_id.nil?
 
         response = connection.get(build_url(GET_PLAYER_SUMMARIES), { steamids: steam_id })
-        processed_response = process_response(response, key: :response)&.dig("players")&.first || {}
+        processed_response = process_response(response, key: :response)&.dig("players")&.first
+
+        return unless processed_response
 
         Models::UserProfile.new(processed_response)
       end
@@ -148,7 +155,7 @@ module SteamApiClient
       def process_response(response, key:)
         return response.body&.dig(key.to_s) if response.success?
 
-        raise Error, status: response.status, error_message: response.body
+        raise Error, "#{response.status}: #{response.body}"
       end
     end
   end

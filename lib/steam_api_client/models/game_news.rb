@@ -17,7 +17,7 @@ module SteamApiClient
                   :content,
                   :feed,
                   :feed_source,
-                  :tag,
+                  :tags,
                   :url,
                   :post_date
 
@@ -29,7 +29,7 @@ module SteamApiClient
         @content         = raw_attributes["contents"]
         @feed            = raw_attributes["feedname"]
         @feed_source     = NEWS_FEED_SOURCE_ENUM[raw_attributes["feed_type"].to_i]
-        @tag             = raw_attributes["tag"]
+        @tags            = Array(raw_attributes["tags"])
         @url             = raw_attributes["url"]
         @is_external_url = !!raw_attributes["is_external_url"]
         @post_date       = cast_to_time(raw_attributes["date"].to_i)

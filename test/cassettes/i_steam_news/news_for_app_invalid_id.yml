@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=-1000&key=<STEAM_API_KEY>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ example.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '2'
+      Expires:
+      - Wed, 02 Sep 2026 21:08:39 GMT
+      Date:
+      - Wed, 02 Sep 2026 21:08:39 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "{}"
+  recorded_at: Wed, 02 Sep 2026 21:08:39 GMT
+recorded_with: VCR 6.4.0

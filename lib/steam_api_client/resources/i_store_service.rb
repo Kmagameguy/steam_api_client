@@ -4,7 +4,8 @@ module SteamApiClient
   module Resources
     class IStoreService
       class Error < StandardError; end
-      class TooManyResultsRequestedError < StandardError; end
+      class NoSteamIdError < Error; end
+      class TooManyResultsRequestedError < Error; end
 
       SERVICE_NAME = "IStoreService"
       API_VERSION  = "v0001"
@@ -26,12 +27,12 @@ module SteamApiClient
         end
 
         if_modified_since = options[:modified_after].is_a?(Time) ? options[:modified_after].to_i : nil
-        include_games     = options[:include_games]    || true
-        include_dlc       = options[:include_dlc]      || false
-        include_software  = options[:include_software] || false
-        include_videos    = options[:include_videos]   || false
-        include_hardware  = options[:include_hardware] || false
-        max_results       = options[:max_results]      || DEFAULT_APP_LIST_RESULT_COUNT
+        include_games     = options.fetch(:include_games, true)
+        include_dlc       = options.fetch(:include_dlc, false)
+        include_software  = options.fetch(:include_software, false)
+        include_videos    = options.fetch(:include_videos, false)
+        include_hardware  = options.fetch(:include_hardware, false)
+        max_results       = options.fetch(:max_results, DEFAULT_APP_LIST_RESULT_COUNT)
         app_id_offset     = options[:app_id_offset]
 
         params = {
@@ -50,6 +51,8 @@ module SteamApiClient
       end
 
       def games_followed_by(steam_id:)
+        raise NoSteamIdError if steam_id.nil?
+
         response = connection.get(build_url(GET_GAMES_FOLLOWED), { steamid: steam_id })
         processed_response = process_response(response)&.dig("appids") || []
 
@@ -59,6 +62,8 @@ module SteamApiClient
       end
 
       def games_followed_by_count(steam_id:)
+        raise NoSteamIdError if steam_id.nil?
+
         response = connection.get(build_url(GET_GAMES_FOLLOWED_COUNT), { steamid: steam_id })
         process_response(response)
       end
@@ -76,7 +81,7 @@ module SteamApiClient
       def process_response(response)
         return response.body&.dig("response") if response.success?
 
-        raise Error, status: response.status, error_message: response.body
+        raise Error, "#{response.status}: #{response.body}"
       end
     end
   end

@@ -17,7 +17,7 @@ module SteamApiClient
 
       describe "#initialize" do
         it "creates a steam_user object from the steamid" do
-          assert_kind_of SteamApiClient::SteamUser, user_friend.steam_user
+          assert_instance_of SteamApiClient::SteamUser, user_friend.steam_user
           assert_equal 76_561_197_960_435_530, user_friend.steam_user.steam_id
         end
 

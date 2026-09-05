@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/GetUserGroupList/v0001?key=<STEAM_API_KEY>&steamid=<MY_STEAM_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Thu, 03 Sep 2026 23:14:25 GMT
+      Date:
+      - Thu, 03 Sep 2026 23:14:25 GMT
+      Content-Length:
+      - '1081'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"success":true,"groups":[{"gid":"4"},{"gid":"70"},{"gid":"88"},{"gid":"128"},{"gid":"622"},{"gid":"1143"},{"gid":"1812"},{"gid":"8411"},{"gid":"33458"},{"gid":"58503"},{"gid":"104242"},{"gid":"112873"},{"gid":"285161"},{"gid":"438273"},{"gid":"512537"},{"gid":"1041945"},{"gid":"1097888"},{"gid":"1103298"},{"gid":"1448804"},{"gid":"1583966"},{"gid":"1653973"},{"gid":"1657574"},{"gid":"1967651"},{"gid":"2021439"},{"gid":"2066584"},{"gid":"2189817"},{"gid":"2230857"},{"gid":"2258040"},{"gid":"2977382"},{"gid":"3417866"},{"gid":"3454485"},{"gid":"3576960"},{"gid":"3621168"},{"gid":"3868565"},{"gid":"4458531"},{"gid":"4458811"},{"gid":"4459264"},{"gid":"4515946"},{"gid":"4734069"},{"gid":"5015159"},{"gid":"5044591"},{"gid":"5178311"},{"gid":"5250658"},{"gid":"5383109"},{"gid":"5798036"},{"gid":"6048880"},{"gid":"6286134"},{"gid":"6459275"},{"gid":"6459475"},{"gid":"6743820"},{"gid":"6767060"},{"gid":"6774404"},{"gid":"6880762"},{"gid":"7094715"},{"gid":"7571256"},{"gid":"7739565"},{"gid":"8407201"},{"gid":"10471499"},{"gid":"30844740"},{"gid":"32352494"}]}}'
+  recorded_at: Thu, 03 Sep 2026 23:14:25 GMT
+recorded_with: VCR 6.4.0

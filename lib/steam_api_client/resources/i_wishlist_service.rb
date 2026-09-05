@@ -43,7 +43,7 @@ module SteamApiClient
       def process_response(response)
         return response.body&.dig("response") if response.success?
 
-        raise Error, status: response.status, error_message: response.body
+        raise Error, "#{response.status}: #{response.body}"
       end
     end
   end

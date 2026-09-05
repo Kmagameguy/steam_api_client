@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002?key=<STEAM_API_KEY>&steamids=<MY_STEAM_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Thu, 03 Sep 2026 23:00:31 GMT
+      Date:
+      - Thu, 03 Sep 2026 23:00:31 GMT
+      Content-Length:
+      - '712'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"players":[{"steamid":"<MY_STEAM_ID>","communityvisibilitystate":3,"profilestate":1,"personaname":"Robin","profileurl":"https://steamcommunity.com/id/robinwalker/","avatar":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9.jpg","avatarmedium":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9_medium.jpg","avatarfull":"https://avatars.steamstatic.com/81b5478529dce13bf24b55ac42c1af7058aaf7a9_full.jpg","avatarhash":"81b5478529dce13bf24b55ac42c1af7058aaf7a9","personastate":0,"realname":"Robin
+        Walker","primaryclanid":"103582791429521412","timecreated":1063407589,"personastateflags":0,"loccountrycode":"US","locstatecode":"WA","loccityid":3961}]}}'
+  recorded_at: Thu, 03 Sep 2026 23:00:31 GMT
+recorded_with: VCR 6.4.0
