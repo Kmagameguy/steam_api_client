@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001?key=<STEAM_API_KEY>&url_type=1&vanityurl=%20
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - steam-api-client-ruby/0.0.4 (+ kmagameguy.com)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Fri, 04 Sep 2026 00:17:55 GMT
+      Date:
+      - Fri, 04 Sep 2026 00:17:55 GMT
+      Content-Length:
+      - '48'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"success":42,"message":"No match"}}'
+  recorded_at: Fri, 04 Sep 2026 00:17:55 GMT
+recorded_with: VCR 6.4.0
