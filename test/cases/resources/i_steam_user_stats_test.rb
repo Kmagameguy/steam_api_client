@@ -34,6 +34,7 @@ module SteamApiClient
 
             assert_operator achievements.size, :>, 0
             assert_instance_of Models::GameGlobalAchievement, achievements.first
+            assert_equal app_id.to_i, achievements.first.app_id
           end
         end
       end
@@ -45,6 +46,8 @@ module SteamApiClient
 
             assert_operator player_achievements.size, :>, 0
             assert_instance_of Models::UserGameAchievement, player_achievements.first
+            assert_equal steam_id.to_i, player_achievements.first.steam_id
+            assert_equal app_id.to_i, player_achievements.first.app_id
           end
         end
       end

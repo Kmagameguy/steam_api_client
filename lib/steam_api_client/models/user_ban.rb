@@ -27,6 +27,10 @@ module SteamApiClient
         vac_banned
       end
 
+      def steam_user
+        @steam_user ||= SteamUser.new(steam_id: steam_id)
+      end
+
       private
 
       attr_reader :community_banned, :vac_banned

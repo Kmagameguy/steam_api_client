@@ -16,6 +16,10 @@ module SteamApiClient
                   :last_played_at,
                   :offline_playtime
 
+      def steam_user
+        @steam_user ||= SteamUser.new(steam_id: steam_id)
+      end
+
       def playtime_last_two_weeks_humanized
         return "never" unless playtime_last_two_weeks.positive?
 

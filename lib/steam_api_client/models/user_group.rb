@@ -9,6 +9,10 @@ module SteamApiClient
         @steam_id = raw_attributes["steam_id"].to_i
         @id       = raw_attributes["group_id"].to_i
       end
+
+      def steam_user
+        @steam_user ||= SteamUser.new(steam_id: steam_id)
+      end
     end
   end
 end

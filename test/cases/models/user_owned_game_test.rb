@@ -73,6 +73,13 @@ module SteamApiClient
         end
       end
 
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_owned_game.steam_user
+          assert_equal user_owned_game.steam_id, user_owned_game.steam_user.steam_id
+        end
+      end
+
       describe "#playtime_last_two_weeks_humanized" do
         it "converts playtime_last_two_weeks to human-readable text" do
           assert_equal "31 minutes", user_owned_game.playtime_last_two_weeks_humanized

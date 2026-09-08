@@ -84,6 +84,13 @@ module SteamApiClient
           refute_predicate user_ban, :vac_banned?
         end
       end
+
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_ban.steam_user
+          assert_equal user_ban.steam_id, user_ban.steam_user.steam_id
+        end
+      end
     end
   end
 end

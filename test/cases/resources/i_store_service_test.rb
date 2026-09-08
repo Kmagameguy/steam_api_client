@@ -11,14 +11,10 @@ module SteamApiClient
       describe "#app_list" do
         it "fetches app info with a default query" do
           VCR.use_cassette("i_store_service/app_list_with_defaults") do
-            response               = subject.new.app_list
-            app_list               = response["apps"]
-            more_results_flag      = response["have_more_results"]
-            last_app_id_for_offset = response["last_appid"]
+            app_list = subject.new.app_list
 
             assert_equal subject::DEFAULT_APP_LIST_RESULT_COUNT, app_list.size
-            assert more_results_flag
-            refute_nil last_app_id_for_offset
+            assert_kind_of Models::Game, app_list.first
           end
         end
 
@@ -33,11 +29,11 @@ module SteamApiClient
               include_hardware: true,
               app_id_offset: 220_700
             }
-            response = subject.new.app_list(options)
-            app_list = response["apps"]
+            app_list = subject.new.app_list(options)
 
             assert_equal 5, app_list.size
-            assert(app_list.all? { |app| app["appid"] > options[:app_id_offset] })
+            assert_kind_of Models::Game, app_list.first
+            assert(app_list.all? { |app| app.id > options[:app_id_offset] })
           end
         end
 

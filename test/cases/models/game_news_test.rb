@@ -112,6 +112,24 @@ module SteamApiClient
           refute_predicate game_news, :links_to_external_site?
         end
       end
+
+      describe "#game" do
+        it "can fetch the game data associated with the achievement" do
+          Resources::IStoreService.any_instance
+                                  .expects(:app_list)
+                                  .with(
+                                    app_id_offset: raw_attributes["appid"].to_i - 1,
+                                    include_games: true,
+                                    include_dlc: true,
+                                    include_software: true,
+                                    include_videos: true,
+                                    include_hardware: true,
+                                    max_results: 1
+                                  ).returns([Models::Game.new])
+
+          game_news.game
+        end
+      end
     end
   end
 end

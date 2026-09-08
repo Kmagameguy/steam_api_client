@@ -112,6 +112,13 @@ module SteamApiClient
           refute_predicate user_profile, :comments_allowed?
         end
       end
+
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_profile.steam_user
+          assert_equal user_profile.steam_id, user_profile.steam_user.steam_id
+        end
+      end
     end
   end
 end
