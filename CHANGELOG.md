@@ -1,7 +1,15 @@
 # CHANGELOG
 
 ## Unreleased Changes
-- Improve natural traversal of games and steam users. Primitives that carry `app_id` and/or `steam_id` should now be able to query their respective `Models::Game` and `SteamUser` data. Note that this is a really naive implementation right now that doesn't make use of efficient caching or resource management. I intend to improve upon the caching / pooling / self-referential behaviors at a later time.
+
+## v0.0.6
+### Breaking Changes
+- Replaced the object pool and per-user `bypass_cache` machinery with a pluggable, TTL-aware response cache. The client now defaults to a no-op cache, so every call hits the Steam Web API. Assign any object implementing `fetch`/`read`/`write`/`delete`/`clear` (e.g. `Rails.cache`, or the bundled `SteamApiClient::MemoryCache`) to `SteamApiClient.cache` to enable caching of API responses.
+- `UserOwnedGame` now expects to be composed of a `Game` object instead of inheriting from it.
+
+### Enhancements
+- Improve natural traversal of games and steam users. Primitives that carry `app_id` and/or `steam_id` should now be able to query their respective `Models::Game` and `SteamUser` data.
+- Use Ruby 4.0.7 in development
 
 ## v0.0.5
 ### Breaking Changes
