@@ -51,9 +51,9 @@ Metrics/PerceivedComplexity:
     - lib/steam_api_client/resources/i_store_service.rb
 
 Naming/PredicateMethod:
+  # `write`/`delete` are cache interface methods, not predicates.
   Exclude:
-    # Excluding this one due to a false positive for the enable_cache! method
-    - lib/steam_api_client/steam_user.rb
+    - lib/steam_api_client/cache.rb
 
 Style/Documentation:
   Enabled: false
