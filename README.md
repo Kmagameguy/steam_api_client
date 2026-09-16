@@ -79,7 +79,16 @@ game.news            # latest news posts for the game
 
 ### Caching
 
-Responses are memoized per user for the lifetime of the object. Call `user.bypass_cache!` to force fresh data from the API, or `user.enable_cache!` to switch back to memoized results.
+By default the client runs with a no-op cache, so every call hits the Steam Web API. To enable caching, assign any cache object with a compatible interface (`fetch`, `read`, `write`, `delete`, `clear`) to `SteamApiClient.cache`:
+
+```ruby
+SteamApiClient.cache = Rails.cache # or any compatible cache
+
+# The gem also ships a thread-safe in-memory implementation:
+SteamApiClient.cache = SteamApiClient::MemoryCache.new
+```
+
+Responses are cached per API endpoint, parameter set, and Steam ID, with per-endpoint TTLs (e.g. owned games for five minutes, recently played games for one minute).
 
 ### Rate Limiting
 
