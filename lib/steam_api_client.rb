@@ -4,10 +4,12 @@ require "json"
 require "faraday"
 
 module SteamApiClient
-  autoload :Config,     "steam_api_client/config"
-  autoload :Connection, "steam_api_client/connection"
-  autoload :SteamUser,  "steam_api_client/steam_user"
-  autoload :VERSION,    "steam_api_client/version"
+  autoload :Config,      "steam_api_client/config"
+  autoload :Connection,  "steam_api_client/connection"
+  autoload :MemoryCache, "steam_api_client/cache"
+  autoload :NullCache,   "steam_api_client/cache"
+  autoload :SteamUser,   "steam_api_client/steam_user"
+  autoload :VERSION,     "steam_api_client/version"
 
   module Models
     module Concerns
@@ -40,5 +42,13 @@ module SteamApiClient
     autoload :ISteamWebApiUtil, "steam_api_client/resources/i_steam_web_api_util"
     autoload :IStoreService,    "steam_api_client/resources/i_store_service"
     autoload :IWishlistService, "steam_api_client/resources/i_wishlist_service"
+  end
+
+  class << self
+    attr_writer :cache
+
+    def cache
+      @cache ||= NullCache.new
+    end
   end
 end
