@@ -23,9 +23,8 @@ module SteamApiClient
 
     attr_reader :steam_id
 
-    def initialize(steam_id: ENV["MY_STEAM_ID"], bypass_cache: false)
-      @steam_id     = steam_id
-      @bypass_cache = !!bypass_cache
+    def initialize(steam_id: ENV["MY_STEAM_ID"])
+      @steam_id = steam_id
 
       raise NoSteamIdError if @steam_id.nil?
     end
@@ -34,10 +33,7 @@ module SteamApiClient
     # That way we could assemble the Models::UserOwnedGame data via multiple
     # API calls all-at-once instead of lazily evaluating things like achievements and stats
     # from inside the Game model itself.
-    # That will also make stuff like bypass_cache! work a bit more cleanly...
     def games(include_appinfo: true, include_played_free_games: true)
-      @games = nil if bypass_cache
-
       @games ||= player_service.owned_games(
         include_appinfo: include_appinfo,
         include_played_free_games: include_played_free_games
@@ -47,8 +43,6 @@ module SteamApiClient
     # TODO: It'd be nice if we had a way to get more info about a wishlisted
     # game, e.g. its name.
     def wishlist
-      @wishlist = nil if bypass_cache
-
       @wishlist ||= wishlist_service.user_wishlist
     rescue StandardError => _e
       @wishlist = []
@@ -57,8 +51,6 @@ module SteamApiClient
     # TODO: It'd be nice if we had a way to get more info about a followed
     # game, e.g. its name
     def followed_games
-      @followed_games = nil if bypass_cache
-
       @followed_games ||= store_service.games_followed_by(steam_id: steam_id)
     rescue StandardError => _e
       @followed_games = []
@@ -67,8 +59,6 @@ module SteamApiClient
     # TODO: Not sure if this is really working; tried it on several accounts and
     # just kept getting 401 errors.
     def friends(relationship_type: nil)
-      @friends = nil if bypass_cache
-
       @friends ||= steam_user_service.friend_list(relationship: relationship_type)
     rescue Resources::ISteamUser::PrivateResourceError
       raise
@@ -77,8 +67,6 @@ module SteamApiClient
     end
 
     def bans
-      @bans = nil if bypass_cache
-
       @bans ||= steam_user_service.player_bans
     rescue StandardError => _e
       @bans = []
@@ -87,16 +75,12 @@ module SteamApiClient
     # TODO: It'd be nice if we had a way to get more info about a group,
     # e.g. its name instead of just the group id.
     def groups
-      @groups = nil if bypass_cache
-
       @groups ||= steam_user_service.group_list
     rescue StandardError => _e
       @groups = []
     end
 
     def profile
-      @profile = nil if bypass_cache
-
       @profile ||= steam_user_service.player_profile
     rescue StandardError => _e
       @profile = {}
@@ -106,8 +90,6 @@ module SteamApiClient
     # the data a bit more synchronized since the recently_played endpoint doesn't
     # return all the same details as .games().
     def recently_played(limit: nil)
-      @recently_played = nil if bypass_cache
-
       @recently_played ||= player_service.recently_played_games(limit: limit)
     rescue StandardError => _e
       @recently_played = []
@@ -129,23 +111,7 @@ module SteamApiClient
       find_game(app_id: app_id, app_name: app_name)&.stats || []
     end
 
-    def bypass_cache?
-      !!self.bypass_cache
-    end
-
-    def enable_cache!
-      # Cosmetic: Invert the assignment so the return value is 'true', matching the
-      # semantic meaning of enable_cache! (i.e. caching is true because bypassing cache is false)
-      !(self.bypass_cache = false)
-    end
-
-    def bypass_cache!
-      self.bypass_cache = true
-    end
-
     private
-
-    attr_accessor :bypass_cache
 
     def find_game(app_id: nil, app_name: nil)
       if app_id

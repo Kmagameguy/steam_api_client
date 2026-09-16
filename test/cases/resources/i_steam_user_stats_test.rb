@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Resources
-    class ISteamUserStatsTest < Minitest::Spec
+    class ISteamUserStatsTest < SteamApiClientTest
       let(:steam_id) { TestFixtures::TEST_STEAM_ID1 }
       let(:app_id)   { 440 }
       let(:subject)  { SteamApiClient::Resources::ISteamUserStats }
@@ -34,6 +34,7 @@ module SteamApiClient
 
             assert_operator achievements.size, :>, 0
             assert_instance_of Models::GameGlobalAchievement, achievements.first
+            assert_equal app_id.to_i, achievements.first.app_id
           end
         end
       end
@@ -43,8 +44,9 @@ module SteamApiClient
           VCR.use_cassette("i_steam_user_stats/player_achievements_for_game") do
             player_achievements = subject.new(app_id: app_id, steam_id: steam_id).player_achievements_for_game
 
-            assert_operator player_achievements.size, :>, 0
             assert_instance_of Models::UserGameAchievement, player_achievements.first
+            assert_equal steam_id.to_i, player_achievements.first.steam_id
+            assert_equal app_id.to_i, player_achievements.first.app_id
           end
         end
       end

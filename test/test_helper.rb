@@ -54,7 +54,7 @@ module EnvHelpers
   end
 end
 
-Minitest::Test.include(EnvHelpers)
+Minitest::Spec.include(EnvHelpers)
 
 VCR.configure do |vcr|
   vcr.cassette_library_dir = "test/cassettes"
@@ -69,4 +69,8 @@ VCR.configure do |vcr|
   vcr.filter_sensitive_data("<MY_STEAM_ID>") { ENV.fetch("MY_STEAM_ID", nil) }
   vcr.filter_sensitive_data("<TEST_STEAM_ID1>") { TestFixtures::TEST_STEAM_ID1 }
   vcr.filter_sensitive_data("<TEST_STEAM_ID2>") { TestFixtures::TEST_STEAM_ID2 }
+end
+
+class SteamApiClientTest < Minitest::Spec
+  before { SteamApiClient.cache = SteamApiClient::NullCache.new }
 end

@@ -1,12 +1,26 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module SteamApiClient
   module Models
-    class UserOwnedGame < Game
+    class UserOwnedGame
+      extend Forwardable
+
       using Refinements::IntegerRefinements
       include Concerns::TimeCastable
 
-      attr_reader :steam_id,
+      def_delegators :game,
+                     :id,
+                     :name,
+                     :img_icon_url,
+                     :mature_content_warnings,
+                     :news,
+                     :global_achievement_percentages,
+                     :mature_content?
+
+      attr_reader :game,
+                  :steam_id,
                   :playtime_last_two_weeks,
                   :total_playtime,
                   :windows_playtime,
@@ -15,6 +29,23 @@ module SteamApiClient
                   :steam_deck_playtime,
                   :last_played_at,
                   :offline_playtime
+
+      def initialize(game:, raw_attributes: {})
+        @game                    = game
+        @steam_id                = raw_attributes["steam_id"].to_i
+        @playtime_last_two_weeks = raw_attributes["playtime_2weeks"].to_i
+        @total_playtime          = raw_attributes["playtime_forever"].to_i
+        @windows_playtime        = raw_attributes["playtime_windows_forever"].to_i
+        @mac_playtime            = raw_attributes["playtime_mac_forever"].to_i
+        @linux_playtime          = raw_attributes["playtime_linux_forever"].to_i
+        @steam_deck_playtime     = raw_attributes["playtime_deck_forever"].to_i
+        @last_played_at          = cast_to_time(raw_attributes["rtime_last_played"].to_i)
+        @offline_playtime        = raw_attributes["playtime_disconnected"].to_i
+      end
+
+      def steam_user
+        @steam_user ||= SteamUser.new(steam_id: steam_id)
+      end
 
       def playtime_last_two_weeks_humanized
         return "never" unless playtime_last_two_weeks.positive?
@@ -59,7 +90,7 @@ module SteamApiClient
       end
 
       def to_h
-        {}.merge(steam_id: steam_id).merge(super).merge(
+        {}.merge(steam_id: steam_id).merge(game.to_h).merge(
           {
             playtime_last_two_weeks: playtime_last_two_weeks,
             total_playtime: total_playtime,
@@ -72,6 +103,7 @@ module SteamApiClient
           }
         )
       end
+      alias attributes to_h
 
       def achievements
         @achievements ||= steam_user_stats_service.player_achievements_for_game
@@ -79,20 +111,6 @@ module SteamApiClient
 
       def stats
         @stats ||= steam_user_stats_service.player_stats_for_game
-      end
-
-      protected
-
-      def post_initialize_hook
-        @steam_id            = @raw_attributes["steam_id"].to_i
-        @playtime_last_two_weeks = @raw_attributes["playtime_2weeks"].to_i
-        @total_playtime      = @raw_attributes["playtime_forever"].to_i
-        @windows_playtime    = @raw_attributes["playtime_windows_forever"].to_i
-        @mac_playtime        = @raw_attributes["playtime_mac_forever"].to_i
-        @linux_playtime      = @raw_attributes["playtime_linux_forever"].to_i
-        @steam_deck_playtime = @raw_attributes["playtime_deck_forever"].to_i
-        @last_played_at      = cast_to_time(@raw_attributes["rtime_last_played"].to_i)
-        @offline_playtime    = @raw_attributes["playtime_disconnected"].to_i
       end
 
       private

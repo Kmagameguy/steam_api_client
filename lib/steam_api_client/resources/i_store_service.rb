@@ -47,7 +47,11 @@ module SteamApiClient
         }.compact
 
         response = connection.get(build_url(GET_APP_LIST), params)
-        process_response(response)
+        processed_response = process_response(response)&.dig("apps") || []
+
+        processed_response.map do |item|
+          Models::Game.new(item)
+        end
       end
 
       def games_followed_by(steam_id:)

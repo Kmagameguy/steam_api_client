@@ -11,6 +11,11 @@ module SteamApiClient
       GET_OWNED_GAMES           = "GetOwnedGames"
       GET_RECENTLY_PLAYED_GAMES = "GetRecentlyPlayedGames"
 
+      CACHE_TTLS = {
+        GET_OWNED_GAMES           => 300,
+        GET_RECENTLY_PLAYED_GAMES => 60
+      }.freeze
+
       attr_accessor :steam_id
 
       def initialize(steam_id:, connection: ::SteamApiClient::Connection.instance)
@@ -23,18 +28,15 @@ module SteamApiClient
       # TODO: Figure out how Valve wants the appids_filter passed in. Might need to use POST for that since the
       # docs state it can't be a URL param (?)
       def owned_games(include_appinfo: false, include_played_free_games: false)
-        params = {
-          include_appinfo: include_appinfo,
-          include_played_free_games: include_played_free_games
-        }.select { |_, v| v }
+        params = { include_appinfo: include_appinfo, include_played_free_games: include_played_free_games }
+                 .select { |_, v| v }
 
         params[:steamid] = steam_id
-
-        response = connection.get(build_url(GET_OWNED_GAMES), params)
-        processed_response = process_response(response)&.dig("games") || []
+        processed_response = cached_response(GET_OWNED_GAMES, params)&.dig("games") || []
 
         processed_response.map do |game|
-          Models::UserOwnedGame.new(game.merge("steam_id" => steam_id))
+          base_game = Models::Game.new(game)
+          Models::UserOwnedGame.new(game: base_game, raw_attributes: game.merge("steam_id" => steam_id))
         end
       end
 
@@ -44,17 +46,28 @@ module SteamApiClient
           count: limit
         }.select { |_, v| v }
 
-        response = connection.get(build_url(GET_RECENTLY_PLAYED_GAMES), params)
-        processed_response = process_response(response)&.dig("games") || []
+        processed_response = cached_response(GET_RECENTLY_PLAYED_GAMES, params)&.dig("games") || []
 
         processed_response.map do |item|
-          Models::UserOwnedGame.new(item.merge("steam_id" => steam_id))
+          base_game = Models::Game.new(item)
+          Models::UserOwnedGame.new(game: base_game, raw_attributes: item.merge("steam_id" => steam_id))
         end
       end
 
       private
 
       attr_reader :connection
+
+      def cached_response(endpoint, params)
+        SteamApiClient.cache.fetch(cache_key(endpoint, params), expires_in: CACHE_TTLS[endpoint]) do
+          process_response(connection.get(build_url(endpoint), params))
+        end
+      end
+
+      def cache_key(endpoint, params)
+        query = params.sort.map { |k, v| "#{k}=#{v}" }.join("&")
+        "i_player_service/#{endpoint}/#{API_VERSION}/#{steam_id}/#{query}"
+      end
 
       def build_url(resource)
         "#{SERVICE_NAME}/#{resource}/#{API_VERSION}/"

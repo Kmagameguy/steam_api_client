@@ -3,7 +3,7 @@
 require "test_helper"
 
 module SteamApiClient
-  class SteamUserTest < Minitest::Spec
+  class SteamUserTest < SteamApiClientTest
     let(:display_name) { "robinwalker" }
     let(:steam_id)     { TestFixtures::TEST_STEAM_ID1 }
     let(:subject)      { SteamApiClient::SteamUser }
@@ -65,12 +65,7 @@ module SteamApiClient
       end
 
       it "memoizes the results" do
-        user_owned_game = Models::UserOwnedGame.new(
-          {
-            "appid" => "10",
-            "name"  => "Counter-Strike"
-          }
-        )
+        user_owned_game = Models::UserOwnedGame.new(game: Models::Game.new)
         Resources::IPlayerService.any_instance
                                  .expects(:owned_games)
                                  .with(include_appinfo: true, include_played_free_games: true)
@@ -81,24 +76,6 @@ module SteamApiClient
         steam_user.games
         # Call it again to test memoization; if memoized then the expectation above should pass because
         # the outbound query to the Steam Web API will only fire once
-        steam_user.games
-      end
-
-      it "does not memoize the result when caching is disabled" do
-        user_owned_game = Models::UserOwnedGame.new(
-          {
-            "appid" => "10",
-            "name"  => "Counter-Strike"
-          }
-        )
-        Resources::IPlayerService.any_instance
-                                 .expects(:owned_games)
-                                 .with(include_appinfo: true, include_played_free_games: true)
-                                 .twice
-                                 .returns([user_owned_game])
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
-
-        steam_user.games
         steam_user.games
       end
     end
@@ -118,18 +95,6 @@ module SteamApiClient
                                    .returns([user_wishlist_item])
 
         steam_user = subject.new(steam_id: steam_id)
-        steam_user.wishlist
-        steam_user.wishlist
-      end
-
-      it "does not memoize the result when caching is disabled" do
-        user_wishlist_item = Models::UserWishlistItem.new
-        Resources::IWishlistService.any_instance
-                                   .expects(:user_wishlist)
-                                   .twice
-                                   .returns([user_wishlist_item])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
         steam_user.wishlist
         steam_user.wishlist
       end
@@ -157,19 +122,6 @@ module SteamApiClient
                                 .returns([user_followed_game])
 
         steam_user = subject.new(steam_id: steam_id)
-        steam_user.followed_games
-        steam_user.followed_games
-      end
-
-      it "does not memoize the result when caching is disabled" do
-        user_followed_game = Models::UserFollowedGame.new
-        Resources::IStoreService.any_instance
-                                .expects(:games_followed_by)
-                                .with(steam_id: steam_id)
-                                .twice
-                                .returns([user_followed_game])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
         steam_user.followed_games
         steam_user.followed_games
       end
@@ -210,19 +162,6 @@ module SteamApiClient
         steam_user.friends
       end
 
-      it "does not memoize the result when caching is disabled" do
-        user_friend = Models::UserFriend.new
-        Resources::ISteamUser.any_instance
-                             .expects(:friend_list)
-                             .with(relationship: nil)
-                             .twice
-                             .returns([user_friend])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
-        steam_user.friends
-        steam_user.friends
-      end
-
       it "raises when the friend list is private" do
         Resources::ISteamUser.any_instance
                              .expects(:friend_list)
@@ -258,15 +197,6 @@ module SteamApiClient
         steam_user.bans
       end
 
-      it "does not memoize the result when caching is disabled" do
-        user_ban = Models::UserBan.new
-        Resources::ISteamUser.any_instance.expects(:player_bans).twice.returns([user_ban])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
-        steam_user.bans
-        steam_user.bans
-      end
-
       it "returns an empty array when encountering an error" do
         Resources::ISteamUser.any_instance.expects(:player_bans).raises(Resources::ISteamUser::Error)
 
@@ -286,15 +216,6 @@ module SteamApiClient
         Resources::ISteamUser.any_instance.expects(:group_list).once.returns([user_group])
 
         steam_user = subject.new(steam_id: steam_id)
-        steam_user.groups
-        steam_user.groups
-      end
-
-      it "does not memoize the result when caching is disabled" do
-        user_group = Models::UserGroup.new
-        Resources::ISteamUser.any_instance.expects(:group_list).twice.returns([user_group])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
         steam_user.groups
         steam_user.groups
       end
@@ -322,15 +243,6 @@ module SteamApiClient
         steam_user.profile
       end
 
-      it "does not memoize the result when caching is disabled" do
-        user_profile = Models::UserProfile.new
-        Resources::ISteamUser.any_instance.expects(:player_profile).twice.returns([user_profile])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
-        steam_user.profile
-        steam_user.profile
-      end
-
       it "returns an empty array when encountering an error" do
         Resources::ISteamUser.any_instance.expects(:player_profile).raises(Resources::ISteamUser::Error)
 
@@ -352,7 +264,7 @@ module SteamApiClient
       end
 
       it "memoizes the results" do
-        user_owned_game = Models::UserOwnedGame.new
+        user_owned_game = Models::UserOwnedGame.new(game: Models::Game.new)
         Resources::IPlayerService.any_instance
                                  .expects(:recently_played_games)
                                  .with(limit: nil)
@@ -360,19 +272,6 @@ module SteamApiClient
                                  .returns([user_owned_game])
 
         steam_user = subject.new(steam_id: steam_id)
-        steam_user.recently_played
-        steam_user.recently_played
-      end
-
-      it "does not memoize the result when caching is disabled" do
-        user_owned_game = Models::UserOwnedGame.new
-        Resources::IPlayerService.any_instance
-                                 .expects(:recently_played_games)
-                                 .with(limit: nil)
-                                 .twice
-                                 .returns([user_owned_game])
-
-        steam_user = subject.new(steam_id: steam_id, bypass_cache: true)
         steam_user.recently_played
         steam_user.recently_played
       end

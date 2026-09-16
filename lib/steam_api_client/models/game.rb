@@ -19,8 +19,6 @@ module SteamApiClient
         @name                    = @raw_attributes["name"]
         @img_icon_url            = @raw_attributes["img_icon_url"]
         @mature_content_warnings = map_mature_content_warnings(@raw_attributes["content_descriptorids"])
-
-        post_initialize_hook
       end
 
       def news
@@ -49,8 +47,6 @@ module SteamApiClient
       end
 
       protected
-
-      def post_initialize_hook; end
 
       def map_mature_content_warnings(content_descriptor_ids)
         Array(content_descriptor_ids).filter_map do |content_descriptor_id|

@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Resources
-    class IWishlistServiceTest < Minitest::Spec
+    class IWishlistServiceTest < SteamApiClientTest
       let(:steam_id) { TestFixtures::TEST_STEAM_ID1 }
       let(:subject)  { SteamApiClient::Resources::IWishlistService }
 

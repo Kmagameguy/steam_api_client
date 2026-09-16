@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class UserProfileTest < Minitest::Spec
+    class UserProfileTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "steamid" => "76561197960435530",
@@ -110,6 +110,13 @@ module SteamApiClient
           raw_attributes["commentpermission"] = 0
 
           refute_predicate user_profile, :comments_allowed?
+        end
+      end
+
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_profile.steam_user
+          assert_equal user_profile.steam_id, user_profile.steam_user.steam_id
         end
       end
     end

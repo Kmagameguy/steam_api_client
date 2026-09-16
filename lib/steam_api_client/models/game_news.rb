@@ -47,9 +47,25 @@ module SteamApiClient
         is_external_url
       end
 
+      def game
+        @game ||= store_service.app_list(
+          app_id_offset: app_id - 1,
+          include_games: true,
+          include_dlc: true,
+          include_software: true,
+          include_videos: true,
+          include_hardware: true,
+          max_results: 1
+        ).first
+      end
+
       private
 
       attr_reader :is_external_url
+
+      def store_service
+        @store_service ||= Resources::IStoreService.new
+      end
     end
   end
 end

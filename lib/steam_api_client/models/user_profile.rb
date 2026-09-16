@@ -73,6 +73,10 @@ module SteamApiClient
         comments_allowed.positive?
       end
 
+      def steam_user
+        @steam_user ||= SteamUser.new(steam_id: steam_id)
+      end
+
       private
 
       def metadata_flags(value)

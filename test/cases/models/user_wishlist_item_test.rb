@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class UserWishlistItemTest < Minitest::Spec
+    class UserWishlistItemTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "steam_id" => "76561197960435530",
@@ -31,6 +31,31 @@ module SteamApiClient
 
         it "casts date_added to a real Time object" do
           assert_kind_of Time, user_wishlist_item.date_added
+        end
+      end
+
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_wishlist_item.steam_user
+          assert_equal user_wishlist_item.steam_id, user_wishlist_item.steam_user.steam_id
+        end
+      end
+
+      describe "#game" do
+        it "can fetch the game data associated with the achievement" do
+          Resources::IStoreService.any_instance
+                                  .expects(:app_list)
+                                  .with(
+                                    app_id_offset: raw_attributes["appid"].to_i - 1,
+                                    include_games: true,
+                                    include_dlc: true,
+                                    include_software: true,
+                                    include_videos: true,
+                                    include_hardware: true,
+                                    max_results: 1
+                                  ).returns([Models::Game.new])
+
+          user_wishlist_item.game
         end
       end
     end

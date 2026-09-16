@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class UserOwnedGameTest < Minitest::Spec
+    class UserOwnedGameTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "steam_id" => "76561197960435530",
@@ -23,19 +23,16 @@ module SteamApiClient
         }
       end
 
-      let(:user_owned_game) { SteamApiClient::Models::UserOwnedGame.new(raw_attributes) }
+      let(:user_owned_game) do
+        game = SteamApiClient::Models::Game.new(raw_attributes)
+        SteamApiClient::Models::UserOwnedGame.new(game: game, raw_attributes: raw_attributes)
+      end
 
       before do
         Resources::ISteamUserStats.any_instance.stubs(:player_achievements_for_game).returns([])
       end
 
       describe "#initialize" do
-        it "inherits from Game" do
-          assert_kind_of Game, user_owned_game
-        end
-      end
-
-      describe "#post_initialize_hook" do
         it "casts the steam_id to an integer" do
           assert_equal 76_561_197_960_435_530, user_owned_game.steam_id
         end
@@ -70,6 +67,13 @@ module SteamApiClient
 
         it "casts playtime_disconnected to an integer offline_playtime field" do
           assert_equal 1, user_owned_game.offline_playtime
+        end
+      end
+
+      describe "#steam_user" do
+        it "gives access to a SteamUser via the provided steam_id" do
+          assert_kind_of SteamUser, user_owned_game.steam_user
+          assert_equal user_owned_game.steam_id, user_owned_game.steam_user.steam_id
         end
       end
 
