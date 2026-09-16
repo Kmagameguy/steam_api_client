@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class GameGlobalAchievementTest < Minitest::Spec
+    class GameGlobalAchievementTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "name" => "SOME_ACHIEVEMENT_NAME",

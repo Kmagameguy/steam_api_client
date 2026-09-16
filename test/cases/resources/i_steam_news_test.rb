@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Resources
-    class ISteamNewsTest < Minitest::Spec
+    class ISteamNewsTest < SteamApiClientTest
       let(:app_id) { 440 }
       let(:subject) { SteamApiClient::Resources::ISteamNews }
 

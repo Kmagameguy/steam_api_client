@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class UserGameAchievementTest < Minitest::Spec
+    class UserGameAchievementTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "steamid" => TestFixtures::TEST_STEAM_ID1,

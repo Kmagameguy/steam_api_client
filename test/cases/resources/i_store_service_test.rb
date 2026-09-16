@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Resources
-    class IStoreServiceTest < Minitest::Spec
+    class IStoreServiceTest < SteamApiClientTest
       let(:steam_id) { TestFixtures::TEST_STEAM_ID1 }
       let(:subject)  { SteamApiClient::Resources::IStoreService }
 

@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class UserProfileTest < Minitest::Spec
+    class UserProfileTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "steamid" => "76561197960435530",

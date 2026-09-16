@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Models
-    class GameTest < Minitest::Spec
+    class GameTest < SteamApiClientTest
       let(:raw_attributes) do
         {
           "appid" => "440",

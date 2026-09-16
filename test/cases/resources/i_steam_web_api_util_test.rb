@@ -4,7 +4,7 @@ require "test_helper"
 
 module SteamApiClient
   module Resources
-    class ISteamWebApiUtilTest < Minitest::Spec
+    class ISteamWebApiUtilTest < SteamApiClientTest
       let(:subject) { SteamApiClient::Resources::ISteamWebApiUtil }
 
       describe ".supported_api_list" do

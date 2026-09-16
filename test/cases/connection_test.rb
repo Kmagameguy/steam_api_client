@@ -3,7 +3,7 @@
 require "test_helper"
 
 module SteamApiClient
-  class ConnectionTest < Minitest::Spec
+  class ConnectionTest < SteamApiClientTest
     let(:subject) { SteamApiClient::Connection.instance }
 
     describe "#initialize" do
