@@ -23,10 +23,8 @@ module SteamApiClient
       # TODO: Figure out how Valve wants the appids_filter passed in. Might need to use POST for that since the
       # docs state it can't be a URL param (?)
       def owned_games(include_appinfo: false, include_played_free_games: false)
-        params = {
-          include_appinfo: include_appinfo,
-          include_played_free_games: include_played_free_games
-        }.select { |_, v| v }
+        params = { include_appinfo: include_appinfo, include_played_free_games: include_played_free_games }
+                 .select { |_, v| v }
 
         params[:steamid] = steam_id
 
@@ -34,7 +32,8 @@ module SteamApiClient
         processed_response = process_response(response)&.dig("games") || []
 
         processed_response.map do |game|
-          Models::UserOwnedGame.new(game.merge("steam_id" => steam_id))
+          base_game = Models::Game.new(game)
+          Models::UserOwnedGame.new(game: base_game, raw_attributes: game.merge("steam_id" => steam_id))
         end
       end
 
@@ -48,7 +47,8 @@ module SteamApiClient
         processed_response = process_response(response)&.dig("games") || []
 
         processed_response.map do |item|
-          Models::UserOwnedGame.new(item.merge("steam_id" => steam_id))
+          base_game = Models::Game.new(item)
+          Models::UserOwnedGame.new(game: base_game, raw_attributes: item.merge("steam_id" => steam_id))
         end
       end
 
